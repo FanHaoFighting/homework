@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<!-- 标题 -->
+	<hgroup>
+		<h1>Lorem.</h1>
+		<h2>Lorem ipsum.</h2>
+		<h3>Lorem ipsum dolor.</h3>
+	</hgroup>
+	<!-- 段落 -->
+	<p>
+		Lorem ipsum dolor sit amet, consectetur adipisicing elit. Id maxime corrupti, nulla earum possimus vitae omnis odio pariatur officia! Odit ipsa alias labore nostrum sint ex non repellendus, doloremque et.
+	</p>
+	<p>
+		Lorem ipsum dolor sit amet, consectetur adipisicing elit. Suscipit quaerat sint commodi est itaque vero, incidunt, quisquam obcaecati iusto minus inventore voluptatum. Consequuntur, at sequi ut nihil fugit amet possimus.
+	</p>
+	<!-- 链接 -->
+	<p>
+		<a href="www.jd.com" target="_blank">在新窗口打开京东</a>
+		<a href="mailto:10yuedefeng@163.com">点击给我发邮件</a>
+		<a href="#bottom">跳转到本页的底部</a>
+		<a href="https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=1336759,75756095&fm=27&gp=0.jpg" download="喵喵喵">点我可以下载一个文件</a>
+	</p>
+	<!-- 图片 -->
+	<img src="https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=1336759,75756095&fm=27&gp=0.jpg" width="200px">
+	<hr>
+	<hr>
+	<!-- 漂浮 -->
+	<marquee>吹呀吹呀我的骄傲放纵</marquee>
+	<br>
+	<!-- 强调 -->
+	<em>这几种强调</em>
+	<b>有什么</b>
+	<strong>区别呢</strong>
+	<u>这个呢</u>
+	<i>这个呢？</i>
+	<p>（我哪知道 语义不同？）</p>
+	<!-- 格式化 -->
+	<p>下面是一段javascript代码，最合适用何种标签表示呢？</p>
+	<pre>
+	<code lang="js">
+	function a(){
+	  return 8
+	}
+	</code>
+	</pre>
+	<br>
+	<hr>
+	<!-- 普通列表 -->
+	<ul>
+		<li>
+			小学
+			<ol>
+				<li>
+					一年级
+					<ol>
+						<li>上学期</li>
+						<li>下学期</li>
+					</ol>
+				</li>
+				<li>二年级</li>
+				<li>三年级</li>
+			</ol>
+		</li>
+		<li>中学</li>
+		<li>大学</li>
+	</ul>
+	<hr>
+	<!-- 定义列表 -->
+	<dl>
+		<dt>班级</dt>
+	   		<dd>三年二班</dd>
+		<dt>老师</dt>
+			<dd>张老师</dd>
+			<dd>李老师</dd>
+			<dd>王老师</dd>
+		<dt>学生</dt>
+			<dd>小明</dd>
+			<dd>豆豆</dd>
+	</dl>
+	<hr>
+	<!-- 搜索 -->
+	<h3>百度搜索</h3>
+	<form action="https://www.baidu.com/s" target="_blank">
+		<input name="wd" placeholder="请输入想要搜索的内容">
+		<button type="submit">在新窗口打开搜索结果</button>
+	</form>
+	<!-- 调查表 -->
+	<form action="#">
+		<dl>
+			<dt>
+				性别
+			</dt>
+			<dd>
+				<input type="radio" name="sex" id="male">
+				<label for="male">
+					男
+				</label>
+				<input type="radio" name="sex" id="female">
+				<label for="female">
+					女
+				</label>
+			</dd>
+			<dt>年龄</dt>
+			<dd>
+				<select>
+					<optgroup label="少年">
+						<option value="1">1-6岁</option>
+						<option value="2">6-12岁</option>
+					</optgroup>
+					<optgroup label="青年">
+						<option value="3">13-16岁</option>
+						<option value="4">16-18岁</option>
+					</optgroup>
+					<optgroup label="壮年">
+						<option value="5">18-22岁</option>
+						<option value="6">23-30岁</option>
+					</optgroup>
+				</select>
+			</dd>
+			<dt>生日</dt>
+			<dd>
+				<input type="date">
+			</dd>
+			<dt>生辰</dt>
+			<dd>
+				<input type="time">
+			</dd>
+			<dt>照片</dt>
+			<dd>
+				<input type="file">
+			</dd>
+			<dt>肤色</dt>
+			<dd>
+				<input type="color">
+			</dd>
+			<dt>自我介绍</dt>
+			<dd>
+				<textarea rows="10" cols="25">&lt;/textarea&gt;</textarea>
+			</dd>
+		</dl>
+		<fieldset>
+			<legend>这里面的全都禁用了</legend>
+			<input disabled="true">
+			<input disabled="true">
+			<input disabled="true">
+		</fieldset>
+		<!-- 提交 -->
+		<input type="submit">
+		<!-- 重置 -->
+		<input type="reset">
+	</form>
+	<hr>
+	<!-- 表格 -->
+	<table border="1">
+		<caption>货品列表</caption>
+		<tr>
+			<th>编号</th>
+			<th>品名</th>
+			<th>进价</th>
+			<th>出价</th>
+		</tr>
+		<tr>
+			<td>001</td>
+			<td>苹果</td>
+			<td rowspan="2">5</td>
+			<td>8</td>
+		</tr>
+		<tr>
+			<td>002</td>
+			<td>桔子</td>
+			<td>8</td>
+		</tr>
+		<tr>
+			<td>003</td>
+			<td>香蕉</td>
+			<td>5</td>
+			<td>8</td>
+		</tr>
+		<tr>
+			<td>004</td>
+			<td>山竹</td>
+			<td>5</td>
+			<td>8</td>
+		</tr>
+	</table>
+	<hr>
+	<!-- 图像映射 -->
+	<img src="https://drscdn.500px.org/photo/174778125/m%3D1170_k%3D1/2841ccf2a3720e8e794a6a6930f6ff2c" alt="" title="image title" width="300px" usemap="#owl">
+	<map name="owl">
+		<!-- 矩形热区 -->
+		<area href="https://www.mi.com/" shape="rect" coords="50,100,270,200" title="abc"></a>
+		<!-- 圆形热区 -->
+		<area href="#" shape="circle" coords="150,250,100"></a>
+		<!-- 多边形热区 -->
+		<area href="#" shape="poly" coords="50,50,200,100,200,200,150,250,100,250"></a>
+	</map>
+	<hr>
+	<!-- 内联框架 -->
+	<a href="https://www.mi.com/" target="frame">点击我会在下面的frame里打开小米商场，但为什么打不开呢？ </a>
+	<p>（我试了一下，填写其它的网站的链接，可以正常打开，只有小米不行，我猜是小米的锅。。。具体原因我也不晓得）</p>
+	<br>
+	<iframe name="frame" src="https://www.baidu.com"></iframe>  
+	<!-- 空格 -->
+	<p>怎样&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;在这两个字之间空这么大呢？</p>
+	<p>怎样在页面中显示下面的内容呢？</p>
+	<p>&lt;span&gt;我屌不屌&lt;/span&gt;</p>
+<br>
+<br>
+<!-- 我是页面底部 -->
+<span id="bottom"></span>
+</body>
+</html>
