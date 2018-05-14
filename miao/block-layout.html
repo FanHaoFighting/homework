@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>block-layout-practise</title>
+	<style>
+		.top{
+			background-color: #000;
+		}
+		.top p{
+			color:#fff;
+			width: 600px;
+			margin:0 auto;
+		}
+		.medium{
+			width: 600px;
+			margin:0 auto;
+		}
+		.medium>div{
+			margin:15px 0;
+		}
+		.medium ul{
+			padding: 0;
+		}
+		.medium .box-pink li{
+			border:3px solid #000;
+			width: 174px;
+			height: 34px;
+			list-style:none;
+			margin-bottom: 15px;
+			line-height: 34px;
+		}
+		.medium .box-pink li:hover{
+			background-color: #000;
+			color:#fff;
+		}
+		.medium .box-pink li:nth-child(n+5){
+			margin-left: 210px;
+		}
+		.medium .box-pink li:nth-child(n+9){
+			margin-left: 420px;
+		}
+		.box-pink li:nth-child(5),.box-pink li:nth-child(9){
+			margin-top: -220px;
+		}
+		.list-link li{
+			list-style: none;
+			border-bottom: 1px dotted #000;
+		}
+		.list-link li:last-child{
+			border:none;
+		}
+		.bottom{
+			background-color: violet;
+			text-align: center;
+		}
+		.bottom p{
+			width: 600px;
+			margin:0 auto;
+		}
+	</style>
+</head>
+<body>
+	<div class="top">
+		<p>hello world 请调整浏览器窗口大小查看效果</p>
+	</div>
+	<div class="medium">
+		<div>
+			页面主体 宽度600px 页面主体 宽度600px 页面主体 宽度600px 页面主体 宽度600px 页面主体 宽度600px 页面主体 宽度600px 页面主体 宽度600px 页面主体 宽度600px 页面主体 宽度600px 页面主体 宽度600px 页面主体 宽度600px 页面主体 宽度600px 页面主体 宽度600px 页面主体 宽度600px 页面主体 宽度600px 页面主体 宽度600px 页面主体 宽度600px 页面主体 宽度600px
+		</div>
+		<ul class="box-pink">
+			<li>宽180高40(包含边框)</li>
+			<li>水平间隙30px</li>
+			<li>垂直间隙15px</li>
+			<li>边框宽度3px</li>
+			<li>产品</li>
+			<li>产品</li>
+			<li>产品</li>
+			<li>产品</li>
+			<li>产品</li>
+			<li>产品</li>
+			<li>产品</li>
+			<li>产品</li>
+		</ul>
+		<ul class="list-link">
+			<li>link</li>
+			<li>link</li>
+			<li>link</li>
+			<li>link</li>
+			<li>link</li>
+		</ul>
+	</div>
+	<div class="bottom">
+		<p>&copy;版权所有</p>
+		<p>本页所有布局均使用块元素</p>
+	</div>
+</body>
+
+</html>
