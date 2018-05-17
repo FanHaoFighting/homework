@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>input-beauty</title>
+	<style>
+		html,body{
+			padding: 0;
+			margin: 0;
+			width: 100%;
+			height: 100%;
+		}
+		form{
+			margin:50px;
+		}
+		form>label{
+			font-size: 0;
+			display: inline-block;
+			border:1px solid #BCC0C7;
+			height: 50px;
+			width: 400px;
+			border-radius: 3px;
+			overflow: hidden;
+			box-sizing: content-box;
+		}
+		form>label{
+			display: block;
+			margin-bottom: 20px;
+		}
+		form>label *{
+			font-size: 16px;
+		}
+		form span.title{
+			display: inline-block;
+			width: 100px;
+			height: 50px;
+			text-align: center;
+			background-color: #E0E4E8;
+			line-height: 50px;
+			border-right: 1px solid #BCC0C7;
+			color: #272822;
+		}
+		form span.check{
+			width: 50px ;
+		}
+		input[type="text"],.fifth-ring{
+			margin:0;
+			height: 49px;
+			width: 268px;
+			border:none;
+			padding: 0 15px;
+		}
+		input[type="text"]{
+			vertical-align: top;
+		}
+		input[type="checkbox"]{
+			vertical-align:text-bottom;
+			margin-bottom:2px;
+			margin-bottom:-2px\9
+		}
+	</style>
+</head>
+<body>
+	<div class="form-wrapper">
+		<form action="">
+			<label>
+				<span class="title">
+					姓名
+				</span>
+				<input type="text" value="你比四环多一环">
+			</label>
+			<label>
+				<span class="title check">
+					<input type="checkbox">
+				</span>
+				<span class="fifth-ring">五环</span>
+			</label>
+		</form>
+	</div>
+</body>
+</html>
