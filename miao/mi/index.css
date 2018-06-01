@@ -580,11 +580,13 @@ main .slider{
 	width: 100%;
 	background-color: #f5f5f5;
 	font-size: 0;
-	/*xoverflow: hidden;*/
+	margin-top: 40px;
+	border:1px solid rgba(0,0,0,0);
 }
 .sale-main{
 	width: 1230px;
 	margin:0 auto;
+	height: auto;
 	margin-top: 40px;
 }
 /* 双行 卖场盒子*/

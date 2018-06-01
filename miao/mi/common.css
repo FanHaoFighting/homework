@@ -20,6 +20,10 @@ ul{
 header,footer{
 	width: 100%;
 }
+/* 40px上外边距 */
+.margin-40{
+	margin-top: 40px;
+}
 /* 去除外边距 */
 .remove-margin{
 	margin:0;
