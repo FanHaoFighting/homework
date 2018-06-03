@@ -7096,11 +7096,6 @@ function FindProxyForURL(url, host) {
 }
 
 var banned = new Set([
-    'www.baidu.com',
-    'www.bilibili.com',
-    'www.weibo.com',
-    'www.youku.com',
-    'v.qq.com',
 ])
 
 function getProxy() {
