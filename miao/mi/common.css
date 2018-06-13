@@ -22,7 +22,11 @@ header,footer{
 }
 /* 40px上外边距 */
 .margin-40{
-	margin-top: 40px;
+	margin-top: 40px !important;
+}
+/* 340px高度 */
+.height-340{
+	height: 340px;
 }
 /* 去除外边距 */
 .remove-margin{
@@ -249,23 +253,6 @@ header,footer{
 	margin-top: 10px;
 }
 /* 热评产品 */
-.buzz{
-	width: 100%;
-	height: 416px;
-	font-size: 0;
-	background-color: red;
-	margin-bottom: 15px;
-}
-/*.buzz li{
-	display: inline-block;
-	width: 296px;
-	height:100%;
-	margin-left: 15px;
-	background-color: #fff;
-}*/
-.buzz li:first-child{
-	margin:0;
-}
 /* 商品标题 */
 .pd-title{
 	color: #202020;
@@ -304,25 +291,38 @@ header,footer{
 }
 
 /* 背景色 */
-.red-bg{
+body .red-bg{
 	background-color: #e53935;
 }
-.green-bg{
+body .green-bg{
 	background-color: #80c04c;
 }
 /* 边框色 */
-.red-border{
+body .red-border{
 	border-color: #E53935;
 }
-.orange-border{
+body .orange-border{
 	border-color: #FFAC13;
 }
-.green-border{
+body .green-border{
 	border-color: #83C44E;
 }
-.blue-border{
+body .blue-border{
 	border-color: #2196F3;
 }
-.cyan{
+body .cyan-border{
 	border-color: #00C0A5;
+}
+/* 文字 */
+body .red-font{
+	color: #E53935;
+}
+body .orange-font{
+	color: #FFAC13;
+}
+body .green-font{
+	color: #83C44E;
+}
+body .blue-font{
+	color: #2196F3;
 }
