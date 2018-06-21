@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<script>
+	alert('我懒得判断非空，不填是猪');
+	alert('先给个一元二次方程的系数');
+	var a=Number(prompt('给个a:',''));
+	var b=Number(prompt('给个b:',''));
+	var c=Number(prompt('给个c:',''));
+
+	/* 一元二次方程 */
+
+	//a,b,c中存在非数字
+	if(isNaN(a)||isNaN(b)||isNaN(c)){
+		alert('？？？？？你写个屁？？？');
+	}
+	//a,b,c都是数字
+	else{
+		if(a==0){
+			alert('a都为0了还能是二次方程？脑壳有包？');
+		}
+		else{
+			var delta=b*b-4*a*c;
+			var s_delta=Math.sqrt(delta);
+			var x1;//根1
+			var x2;//根2
+			document.write('一元二次方程：<br>');
+			//俩相同根
+			if(delta==0){
+				x1=(-b+s_delta)/(2*a);
+				x2=(-b-s_delta)/(2*a);
+				document.write('两根相同时，根为：'+x1);
+			}
+			//俩不同根
+			else if(delta>0){
+				x1=(-b+s_delta)/(2*a);
+				x2=(-b-s_delta)/(2*a);
+				document.write('两根不同时，根分别为：<br>x1='+x1+'<br>x2='+x2);
+			}
+			//共轭复根
+			else if(delta<0){
+				s_delta=Math.sqrt(-delta);
+				var a2=2*a;
+				x1=-b/a2+'+'+s_delta/a2+'i';
+				x2=-b/a2+'-'+s_delta/a2+'i';
+				document.write('没有实根时，虚根分别为：<br>x1='+x1+'<br>x2='+x2);
+			}
+			document.write('<br><br><br>');
+		}
+	}
+
+	alert('再来个二元一次方程组的系数');
+	var A=Number(prompt('第一个方程的系数A:',''));
+	var B=Number(prompt('第一个方程的系数B:',''));
+	var M=Number(prompt('第一个方程的系数M:',''));
+	var C=Number(prompt('第二个方程的系数C:',''));
+	var D=Number(prompt('第二个方程的系数D:',''));
+	var N=Number(prompt('第二个方程的系数N:',''));
+
+	/* 二元一次方程组 */
+	//给定的系数存在非数字
+	if(isNaN(A)||isNaN(B)||isNaN(M)||isNaN(C)||isNaN(D)||isNaN(N)){
+		alert('我求求你认真点');
+	}
+	else{
+		document.write('二元一次方程组：<br>');
+		//两个方程的系数之比均相等时，该方程组有无数组解
+		if(A/C==B/D&&B/D==M/N){
+			document.write('该方程组有无穷个解');
+		}
+		//两个方程的前两对系数之比相等但最后一对系数之比不等时，该方程组无解
+		else if(A/C==B/D&&B/D!=M/N){
+			document.write('该方程组无解');
+		}
+		//两个方程的前两对系数之比不相等时，该方程组有且仅有一组解
+		else if(A/C!=B/D){
+			var X=(M*D-N*B)/(A*D-C*B);
+			var Y=(M*C-N*A)/(B*C-A*D);
+			document.write('该方程组有唯一解为：<br> x='+X+'<br> y='+Y);
+		}
+	}
+
+</script>
+<body>
+	
+</body>
+</html>
