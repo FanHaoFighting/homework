@@ -809,9 +809,27 @@
     sumH += finalH * 2;
   }
   sumH -= finalH * 2
-  console.log(sumH + ' ' + finalH);
+  console.log(sumH.toFixed(4) + ' ' + finalH.toFixed(7));
 </script>
 
+<script id="ch0105/21">
+  var n = Number(prompt('输入一个正整数'));
+  var str;
+  while(n != 1){
+    if(n % 2 != 0){
+      str = n + '*3+1='; 
+      n = n * 3 + 1;
+      str += n;
+    }
+    else{
+      str = n + '/2=';
+      n /= 2;
+      str += n;
+    }
+    console.log(str);
+  }
+  console.log('End');
+</script>
 <body>
   
 </body>
