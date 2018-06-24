@@ -344,10 +344,10 @@
   var str = '';
   var bikeT = 50 + dis / 3;
   var walkT = dis / 1.2;
-  if(walkT < bikeT){
+  if(walkT > bikeT){
     str = 'Bike';
   }
-  else if(bikeT < walkT){
+  else if(bikeT > walkT){
     str = 'Walk';
   }
   else{
