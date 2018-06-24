@@ -748,14 +748,14 @@
 </script>
 
 <script id="ch0105/18">
-    var ways = Number(prompt('测试组数'));
-    var sumC = 0;
-    var validC = 0;
-    var sumO = 0;
-    var validO = 0;
-    var x;
-    var y;
-    for(var i = 0;i < ways;i ++){
+   var ways = Number(prompt('测试组数'));
+   var sumC = 0;
+   var validC = 0;
+   var sumO = 0;
+   var validO = 0;
+   var x;
+   var y;
+   for(var i = 0;i < ways;i ++){
       if(i === 0){
         sumC = Number(prompt('鸡尾酒疗法总病例数'));
         validC = Number(prompt('鸡尾酒疗法有效的病例数'));
@@ -778,9 +778,38 @@
     }
 </script>
 
-<script id="ch0105/19"></script>
+<script id="ch0105/19">
+  var roof = Number(prompt('屋顶数'));
+  var x;
+  var y;
+  var num;
+  var time = 0;
+  var dis = 0;
+  for(var i = 0;i < roof;i ++){
+    x = Number(prompt('屋顶横坐标'));
+    y = Number(prompt('屋顶纵坐标'));
+    num = Number(prompt('人数'));
+    time += 1.5 * num;
+    dis = Math.sqrt(Math.pow(x,2) + Math.pow(y,2));
+    time += dis / 25;
+  }
+  if(parseInt(time) < time){
+    time = parseInt(time) + 1;
+  }
+  console.log(time);
+</script>
 
-<script id="ch0105/20"></script>
+<script id="ch0105/20">
+  var h = Number(prompt('球的初始高度'));
+  var sumH = h;
+  var finalH = h;
+  for(var i = 0;i < 10;i ++){
+    finalH /= 2;
+    sumH += finalH * 2;
+  }
+  sumH -= finalH * 2
+  console.log(sumH + ' ' + finalH);
+</script>
 
 <body>
   
