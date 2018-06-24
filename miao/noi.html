@@ -830,6 +830,61 @@
   }
   console.log('End');
 </script>
+
+<script id="ch0105/22">
+  var m = 0;
+  var budget;
+  var month = 0;
+  var save = 0;
+  for(var i = 0;i < 12;i ++){
+    budget = Number(prompt('输入第' + (i + 1) + '个月的预算'));
+    m = m + 300 - budget;
+    if(m < 0){
+      month = i + 1;
+      break;
+    }
+    else{
+      if(m >= 100){
+        save += parseInt(m / 100) * 100;
+        m -= parseInt(m / 100) * 100;
+      }
+    }
+  }
+  if(month != 0){
+    console.log('-' + month);
+  }
+  else{
+    save *= 1.2;
+    m += save;
+    console.log(m);
+  }
+</script>
+
+<script id="ch0105/23">
+  var m = Number(prompt('药品初始库存'));
+  var n = Number(prompt('取药人数'));
+  var counter = 0;
+  var take;
+  for(var i = 0;i < n;i ++){
+    take = Number(prompt('第' + (i + 1) + '个人的取药数量'));
+    if(m < take){
+      counter ++;
+    }
+    else{
+      m -= take;
+    }
+  }
+  console.log(counter);
+</script>
+
+<!-- <script id="ch0105/24"></script>
+
+<script id="ch0105/25"></script>
+
+<script id="ch0105/26"></script>
+
+<script id="ch0105/27"></script> -->
+
 <body>
   
 </body>
