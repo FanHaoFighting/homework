@@ -68,7 +68,7 @@
   var d = r * 2;
   var p = (pi * d).toFixed(4);
   var a = (pi * r * r).toFixed(4);
-  console.log(d + ' ' + p + ' ' + a);
+  console.log(d。toFixed(4) + ' ' + p + ' ' + a);
 </script>
 
 <script id="ch0103/10">
@@ -81,7 +81,8 @@
 <script id="ch0103/11">
   var a = parseFloat(prompt('请输入浮点数a'));
   var b = parseFloat(prompt('请输入浮点数b'));
-  console.log(a % b);
+  var r = a - (b * parseInt(a / b));
+  console.log(r.toFixed(4));
 </script>
 
 <script id="ch0103/12">
