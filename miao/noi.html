@@ -666,19 +666,117 @@
     console.log(count1 + ' ' + count5 + ' ' + count10);
 </script>
 
-<script id="ch0105/12"></script>
+<script id="ch0105/12">
+    var len = Number(prompt('序列长度'));
+    var key = Number(prompt('指定数字'));
+    var inp;
+    var count = 0;
+    for(var i = 0;i < len;i ++){
+      inp = Number(prompt('数字'));
+      if(key === inp){
+        count ++;
+      }
+    }
+    console.log(count);
+</script>
 
-<script id="ch0105/13"></script>
+<script id="ch0105/13">
+    var a = Number(prompt('a'));
+    var n = Number(prompt('n'));
+    var res = a;
+    for(var i = 0;i < n - 1;i ++){
+      res *= a;
+    }
+    console.log(res);
+</script>
 
-<script id="ch0105/14"></script>
+<script id="ch0105/14">
+    var base = Number(prompt('人口基数'));
+    var year = Number(prompt('年数'));
+    var num = base;
+    for(var i = 0;i < year;i ++){
+      num *= 1.001;
+    }
+    console.log(num.toFixed(4));
+</script>
 
-<script id="ch0105/15"></script>
+<script id="ch0105/15">
+    var R = Number(prompt('年利率'));
+    var M = Number(prompt('钱'));
+    var Y = Number(prompt('年数'));
+    R = R / 100 + 1;
+    for(var i = 0;i < Y;i ++){
+      M *= R;
+    }
+    console.log(parseInt(M));
+</script>
 
-<script id="ch0105/16"></script>
+<script id="ch0105/16">
+    var N = Number(prompt('年薪'));
+    var S = N;
+    var K = Number(prompt('增长率'));
+    K = K / 100 + 1;
+    var price = 200;
+    var res = 'Impossible';
+    for(var i = 1;i < 20;i ++){
+      S += N;
+      price *= K;
+      if(S >= price){
+        res = i + 1;
+        break;
+      }
+    }
+    console.log(res);
+</script>
 
-<script id="ch0105/17"></script>
+<script id="ch0105/17">
+    var k = Number(prompt('k'));
+    var a = 1;
+    var b = 1;
+    var c;
+    if(k === 1 || k ===2){
+      c = 1;
+    }
+    else{
+      for(var i = 3;i <= k;i ++){
+        c = a + b;
+        a = b;
+        b = c;
+      }
+    }
+    console.log(c);
+</script>
 
-<script id="ch0105/18"></script>
+<script id="ch0105/18">
+    var ways = Number(prompt('测试组数'));
+    var sumC = 0;
+    var validC = 0;
+    var sumO = 0;
+    var validO = 0;
+    var x;
+    var y;
+    for(var i = 0;i < ways;i ++){
+      if(i === 0){
+        sumC = Number(prompt('鸡尾酒疗法总病例数'));
+        validC = Number(prompt('鸡尾酒疗法有效的病例数'));
+        x = validC / sumC;
+      }
+      else{
+        sumO = Number(prompt('其他疗法总病例数'));
+        validO = Number(prompt('其他疗法有效的病例数'));
+        y = validO / sumO;
+        if(y - x > 0.05){
+          console.log('better');
+        }
+        else if(x - y > 0.05){
+          console.log('worse');
+        }
+        else {
+          console.log('same');
+        }
+      }
+    }
+</script>
 
 <script id="ch0105/19"></script>
 
