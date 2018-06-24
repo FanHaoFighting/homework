@@ -104,7 +104,7 @@
 <script id="ch0103/14">
   var h = Number(prompt('请输入圆桶高度'));
   var r = Number(prompt('请输入圆桶底面半径'));
-  var p = 3.14159;
+  var pi = 3.14159;
   var water = r * r * pi * h / 1000;
   var bucket = 20 / water;
   if(parseInt(bucket) < bucket){
@@ -190,6 +190,7 @@
   else{
     str = 'negative';
   }
+  console.log(str);
 </script>
 
 <script id="ch0104/02">
@@ -344,10 +345,10 @@
   var bikeT = 50 + dis / 3;
   var walkT = dis / 1.2;
   if(walkT < bikeT){
-    str = 'walkT';
+    str = 'Bike';
   }
   else if(bikeT < walkT){
-    str = 'bikeT';
+    str = 'Walk';
   }
   else{
     str = 'All';
@@ -356,7 +357,7 @@
 </script>
 
 <script id="ch0104/13">
-  var n = parseFloat(prompt('请输入一个浮点数N'));
+  var x = parseFloat(prompt('请输入一个浮点数N'));
   var y;
   if(0 <= x && x < 5){
     y = -x + 2.5;
@@ -515,9 +516,9 @@
   var n = Number(prompt('请输入苹果数量'));
   var x = Number(prompt('请输入虫子几小时吃一个苹果'));
   var y = Number(prompt('请输入虫子吃了几个小时'));
-  var rest;
   var eat = y / x;
-  console.log(rest);
+  var rest = n - eat;
+  console.log(parseInt(rest));
 </script>
 
 <script id="ch0105/01">
