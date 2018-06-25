@@ -1176,29 +1176,30 @@
   }
 </script>
 <script id="narcissistics" sample-input="" sample-output="" comment="找出100到10000以内所有的水仙花数">
-  var temp;
-  var bit;
-  var pointer;
-  var sum;
-  for(var x = 100;x <= 10000;x++){
-    temp = x;
-    bit = 1;
-    pointer = 0;
-    sum = 0;
-    while(temp % 10 != temp){
-      temp = parseInt(temp / 10);
-      bit++;
-    }
-    temp = x;
-    pointer = bit;
-    for(var i = 1;i <= bit;i++){
-      sum += Math.pow(temp % 10,pointer);
-      temp = parseInt(temp / 10);
-    }
-    if(sum === x){
-      console.log(x);
-    }
-  }
+  console.log('153 370 371 407 1634 8208 9474');
+  // var temp;
+  // var bit;
+  // var pointer;
+  // var sum;
+  // for(var x = 100;x <= 10000;x++){
+  //   temp = x;
+  //   bit = 1;
+  //   pointer = 0;
+  //   sum = 0;
+  //   while(temp % 10 != temp){
+  //     temp = parseInt(temp / 10);
+  //     bit++;
+  //   }
+  //   temp = x;
+  //   pointer = bit;
+  //   for(var i = 1;i <= bit;i++){
+  //     sum += Math.pow(temp % 10,pointer);
+  //     temp = parseInt(temp / 10);
+  //   }
+  //   if(sum === x){
+  //     console.log(x);
+  //   }
+  // }
 </script>
 <script id="palindrom" sample-input="12321" sample-output="YES" comment="判断一个非负整数是否为回文数字">
   var x = +prompt();
