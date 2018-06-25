@@ -925,7 +925,8 @@
       }
     }
   }
-  console.log(base7to10 + '\n' + base7 + '\n' + base9);
+  //console.log(base7to10 + '\n' + base7 + '\n' + base9);
+  console.log('（不提供）');
 </script>
 
 <script id="ch0105/26">
@@ -986,26 +987,26 @@
 </script>
 
 <script id="ch0105/30">
-  // var m = Number(prompt('给一个正整数'));
-  // var k = Number(prompt('给一个正整数'));
-  // var temp = m;
-  // var str = 'NO';
-  // var counter = 0;
-  // if(m % 19 === 0){
-  //   while((m % 10) != m){
-  //     if(m % 10 === 3){
-  //       counter ++;
-  //     }
-  //     m = parseInt(m / 10);
-  //   }
-  //   if(m === 3){
-  //     counter ++;
-  //   }
-  //   if(counter === k){
-  //     str = 'YES';
-  //   }
-  // }
-  console.log('YES');
+  var m = Number(prompt('给一个正整数'));
+  var k = Number(prompt('给一个正整数'));
+  var temp = m;
+  var str = 'NO';
+  var counter = 0;
+  if(m % 19 === 0){
+    while((m % 10) != m){
+      if(m % 10 === 3){
+        counter ++;
+      }
+      m = parseInt(m / 10);
+    }
+    if(m === 3){
+      counter ++;
+    }
+    if(counter === k){
+      str = 'YES';
+    }
+  }
+  console.log(str);
 </script>
 <body>
   
