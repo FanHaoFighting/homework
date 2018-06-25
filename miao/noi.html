@@ -877,13 +877,81 @@
   console.log(counter);
 </script>
 
-<!-- <script id="ch0105/24"></script>
+<script id="ch0105/24">
+  var n = Number(prompt('测量次数'));
+  var max = 0;
+  var counter = 0;
+  var systolic;
+  var diastolic;
+  for(var i = 0;i < n;i ++){
+    systolic = Number(prompt('收缩压'));
+    diastolic = Number(prompt('舒张压'));
+    if((90 <= systolic && systolic <= 140) && (60 <= diastolic && diastolic <= 90)){
+      counter ++;
+      if(counter > max){
+        max = counter;
+      }
+    }
+    else{
+      counter = 0;
+    }
+  }
+  console.log(max);
+</script>
 
-<script id="ch0105/25"></script>
+<script id="ch0105/25">
+  var a;
+  var b;
+  var c;
+  var base10;
+  var base7;
+  var base7to10;
+  var base9;
+  var base9to10;
+  for(var i = 106;i <= 601;i ++){
+    if(i % 10 == 0 || parseInt(i / 10) % 10 >6){
+      continue;
+    }
+    else{
+      base7 = i;
+      a = parseInt(i / 100);
+      b = parseInt(i / 10) % 10;
+      c = i % 10;
+      base7to10 = a * 7 * 7 + b * 7 + c;
+      base9 = c * 100 + b * 10 + a;
+      base9to10 = c * 9 * 9 + b * 9 + a;
+      if(base7to10 === base9to10){
+        break;
+      }
+    }
+  }
+  console.log(base7to10);
+  console.log(base7);
+  console.log(base9);
+</script>
 
-<script id="ch0105/26"></script>
+<script id="ch0105/26">
+  var n = Number(prompt('四位数个数'));
+  var m;
+  var counter = 0;
+  var th;
+  var hu;
+  var te;
+  var un;
+  for(var i = 0;i < n;i ++){
+    m = Number(prompt('四位数'));
+    un = m % 10;
+    te = parseInt(m / 10) % 10;
+    hu = parseInt(m / 100) % 10;
+    th =parseInt(m / 1000);
+    if(un - (te + hu + th) > 0){
+      counter ++;
+    }
+  }
+  console.log(counter);
+</script>
 
-<script id="ch0105/27"></script> -->
+<script id="ch0105/27"></script>
 
 <body>
   
