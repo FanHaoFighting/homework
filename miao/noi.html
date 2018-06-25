@@ -961,7 +961,51 @@
 </script>
 
 <script id="ch0105/28">
-  
+  var n = Number(prompt('给一个整数'));
+  while(n % 10 != n){
+    console.log(n % 10);
+    n = parseInt(n / 10);
+  }
+  console.log(n);
+</script>
+
+<script id="ch0105/29">
+  var oldn = Number(prompt('给一个整数'));
+  var newn = oldn;
+  var final = 0;
+  var bit = 1;
+  while(newn % 10 != newn){
+    newn = parseInt(newn / 10);
+    bit ++;
+  }
+  for(var i = bit - 1;i >= 0;i --){
+    final += oldn % 10 * Math.pow(10,i);
+    oldn = parseInt(oldn / 10);
+  }
+  console.log(final);
+</script>
+
+<script id="ch0105/30">
+  var m = Number(prompt('给一个正整数'));
+  var k = Number(prompt('给一个正整数'));
+  var temp = m;
+  var str = 'NO';
+  var counter = 0;
+  if(m % 19 === 0){
+    while((m % 10) != m){
+      if(m % 10 === 3){
+        counter ++;
+      }
+      m = parseInt(m / 10);
+    }
+    if(m === 3){
+      counter ++;
+    }
+    if(counter === k){
+      str = 'YES';
+    }
+  }
+  console.log(str);
 </script>
 <body>
   
