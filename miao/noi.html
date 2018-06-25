@@ -1008,6 +1008,48 @@
   }
   console.log(str);
 </script>
+
+<script id="ch0105/31">
+  var n = Number(prompt('输入灯的盏数'));
+  var m = Number(prompt('输入人数'));
+  var isFirstOff = 0;
+  var isOn = 1;
+  var str = '';
+  for(var i = 1;i <= n;i++){
+    for(var j = 1;j <= m;j++){
+      if(j === 1){
+        isOn = 0;
+      }
+      else if(j ===2){
+        if(i % 2 === 0){
+          isOn = 1;
+        }
+      }
+      else{
+        if(i % j === 0){
+          if(isOn === 0){
+            isOn = 1;
+          }
+          else{
+            isOn = 0;
+          }
+        }
+      }
+    }
+    if(isOn === 0){
+      if(isFirstOff === 0){
+        isFirstOff = 1;
+        str += i;
+      }
+      else{
+        str += ',' + i;
+      }
+    }
+  }
+  console.log(str);
+</script>
+
+
 <body>
   
 </body>
