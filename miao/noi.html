@@ -1129,15 +1129,24 @@
 </script>
 
 <script id="ch0105/37">
-  var m = +prompt();//最大体力
-  var n = +prompt();//初始战斗力
-  var x = +prompt();//能量元素个数
-  var HP = 0;//当前体力
-  var currentN = n;//当前战斗力
-  //体力不够时补充体力
-  while(HP < m){
-    
+  var m = +prompt();
+  var x = +prompt();
+  var HP = 0;
+  var currentN = n;
+  while(x > 0){
+    while(HP < m){
+      HP += currentN;
+      x--;
+      if(HP > m){
+        HP = m;
+      }
+    }
+    if(HP == m){
+      currentN += parseInt(m / currentN);
+      HP = 0;
+    }
   }
+  console.log(currentN);
 </script>
 
 
@@ -1176,30 +1185,29 @@
   }
 </script>
 <script id="narcissistics" sample-input="" sample-output="" comment="找出100到10000以内所有的水仙花数">
-  console.log('');
-  // var temp;
-  // var bit;
-  // var pointer;
-  // var sum;
-  // for(var x = 100;x <= 10000;x++){
-  //   temp = x;
-  //   bit = 1;
-  //   pointer = 0;
-  //   sum = 0;
-  //   while(temp % 10 != temp){
-  //     temp = parseInt(temp / 10);
-  //     bit++;
-  //   }
-  //   temp = x;
-  //   pointer = bit;
-  //   for(var i = 1;i <= bit;i++){
-  //     sum += Math.pow(temp % 10,pointer);
-  //     temp = parseInt(temp / 10);
-  //   }
-  //   if(sum === x){
-  //     console.log(x);
-  //   }
-  // }
+  var temp;
+  var bit;
+  var pointer;
+  var sum;
+  for(var x = 100;x <= 10000;x++){
+    temp = x;
+    bit = 1;
+    pointer = 0;
+    sum = 0;
+    while(temp % 10 != temp){
+      temp = parseInt(temp / 10);
+      bit++;
+    }
+    temp = x;
+    pointer = bit;
+    for(var i = 1;i <= bit;i++){
+      sum += Math.pow(temp % 10,pointer);
+      temp = parseInt(temp / 10);
+    }
+    if(sum === x){
+      console.log(x);
+    }
+  }
 </script>
 <script id="palindrom" sample-input="12321" sample-output="YES" comment="判断一个非负整数是否为回文数字">
   var x = +prompt();
@@ -1255,7 +1263,7 @@
     console.log('YES');
   }
   else if(x % 2 != 0 && x != 1){
-    for(var i = 3;i < (x / 2);i++){
+    for(var i = 3;i <= (x / 2);i++){
       if(i % 2 === 0){
         continue;
       }
@@ -1299,10 +1307,47 @@
   }
 </script>
 <script id="itob" sample-input="123" sample-output="123" comment="数字转换成字符串">
-  
+  var x = +prompt();
+  var str = '';
+  while(x % 10 != x){
+    str = String.fromCharCode(x % 10 + 48) + str;
+    x = parseInt(x / 10);
+  }
+  str = String.fromCharCode(x % 10 + 48) + str;
+  console.log(str);
 </script>
 <script id="lcf&lcm" sample-input="12 9" sample-output="36 3" comment="给定两个数，求它们的最小公倍数和最大公约数">
-  
+  var a = +prompt();
+  var b = +prompt();
+  var max;
+  var min;
+  var str = '';
+  if(a === b){
+    console.log(a);
+    console.log(a);
+  }
+  else if(a > b){
+    max = a;
+    min = b;
+  }
+  else{
+    max = b;
+    min = a;
+  }
+  for(var i = max;i <= min * max;i++){
+    if(i % min == 0 && i % max == 0){
+      str += i;
+      break;
+    }
+  }
+  str += ' ';
+  for(var i = min;i >=1;i--){
+    if(min % i == 0 && max % i == 0){
+      str += i;
+      break;
+    }
+  }
+  console.log(str);
 </script>
 <script id="7" sample-input="" sample-output="" comment="敲7">
   var temp;
