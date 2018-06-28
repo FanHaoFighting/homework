@@ -1229,7 +1229,7 @@
   }  
 </script>
 <script id="weekday" sample-input="2018 6" sample-output="5" comment="输入年份与月份，给出该年该月的第一天是星期几">
-  
+  //懒得写
 </script>
 <script id="complete-number" sample-input="6" sample-output="YES" comment="判断一个数是否为完全数">
   var x = +prompt();
@@ -1373,7 +1373,23 @@
   }
 </script>
 <script id="sqrt" sample-input="2" sample-output="1.414" comment="不使用Math.sqrt，求一个非负数的平方根，至少精确到小数点后3位">
-  
+  var x = +prompt();
+  var high = x;
+  var low = 0;
+  var mid;
+  while(high - low > 0.000001){
+    mid = (low + high) / 2;
+    if(mid * mid == x){
+      break;
+    }
+    else if(mid * mid > x){
+      high = mid;
+    }
+    else if(mid * mid < x){
+      low = mid;
+    }
+  }
+  console.log(mid);
 </script>
 
 
@@ -1389,6 +1405,169 @@
   console.log(x);
 </script>
 
+<script comment="分解质因数-递归实现">
+  var x = +prompt('老哥行行好输入一个合数');
+  var str = '';
+  resolve(x);
+  console.log(x + '=' + str);
+  //分解质因数
+  function resolve(number){
+    for(var i = 2;i <= number;i++){
+      if(isPrime(i) == true){
+        if(number == 1){
+          //console.log(i);
+          break;
+        }
+        else if(number % i == 0){
+          if(number == x){
+            str = i
+          }
+          else{
+            str += '*' + i;
+          }
+          resolve(number / i);
+          break;
+        }
+      }
+    }
+  }
+  //判断素数
+  function isPrime(number){
+    var counter = 0;
+    if(number == 2){
+      return true;
+    }
+    else{
+      for(var i = 2;i <= number / 2;i++){
+        if(number % i == 0){
+          counter ++;
+          break;
+        }
+      }
+    }
+    if(counter == 0){
+      return true;
+    }
+    else{
+      return false;
+    }
+  }
+</script>
+
+<script comment="分解质因数-循环实现">
+  var x = +prompt();
+  var temp = x;
+  var i = 2;
+  while(temp > 1){
+    if(isPrime(i) == true){
+      if(temp % i == 0){
+        console.log(i);
+        temp = temp / i;
+      }
+      else{
+        i ++;
+      }
+    }
+    else{
+      i ++;
+    }
+  }
+    //判断素数
+  function isPrime(number){
+    var counter = 0;
+    if(number == 2){
+      return true;
+    }
+    else{
+      for(var i = 2;i <= number / 2;i++){
+        if(number % i == 0){
+          counter ++;
+          break;
+        }
+      }
+    }
+    if(counter == 0){
+      return true;
+    }
+    else{
+      return false;
+    }
+  }
+</script>
+
+<script comment="最小的能被1到20所有数整除的数">
+  var n = commonMult(1,2);
+  var i = 3;
+  while(i <= 20){
+    n = commonMult(n,i);
+    i++;
+  }
+  console.log(n);
+
+  //求最小公倍数
+  function commonMult(a,b){
+    var min = Math.min(a,b);
+    var max = Math.max(a,b)
+    for(var i = max;i <= (a * b);i++){
+      if(i % a == 0 && i % b == 0){
+        return i;
+      }
+    }
+  }
+</script>
+
+<script comment="数字各位求和直至为个位数">
+  var x = +prompt();
+  while(x >= 10){
+    x = sum(x);
+  }
+  console.log(x);
+  //各位求和
+  function sum(number){
+    var sum = 0;
+    while(x % 10 != x){
+      sum += x % 10;
+      x = parseInt(x / 10);
+    }
+    sum += x;
+    return sum;
+  }
+</script>
+
+<script comment="毕达哥拉斯三元组">
+  var o = 0;
+  for(l = 1;l < 408;l++){
+    if(o == 1){
+      break;
+    }
+    for(m = l + 1;m < 409;m++){
+      if(o == 1){
+        break;
+      }
+      for(n = m + 1;n < 500;n++){
+        if(isPythagorean(l,m,n) == true){
+          if(l + m + n == 1000){
+            console.log('{' + l + ',' + m + ',' + n + '}');
+            o = 1;
+            break;
+          }
+        }
+      }
+    }
+  }
+  //判断勾股数 
+  function isPythagorean(a,b,c){
+    if(pythagorean(a,b,c) == true || pythagorean(a,c,b) == true || pythagorean(b,a,c) == true || pythagorean(b,c,a) == true || pythagorean(a,b,c) == true || pythagorean(c,a,b) == true || pythagorean(c,b,a) == true){
+      return true
+    }
+  }
+  //求勾股数
+  function pythagorean(a,b,c){
+    if(Math.pow(a,2) + Math.pow(b,2) == Math.pow(c,2)){
+      return true
+    }
+  } 
+</script>
 <body>
   
 </body>
