@@ -6,7 +6,6 @@ var rules = [
   "||jsbin.com",
   "||500px.org",
   "||alf.nu",
-  "||leetcode.com",
   "||2dbook.com",
   "||4tern.com",
   "|http://85.17.73.31/",
