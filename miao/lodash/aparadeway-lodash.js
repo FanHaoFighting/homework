@@ -32,6 +32,7 @@ var aparadeway = {
       }
     }
     array.length = array.length - sum;
+    return array
   }
 
 
