@@ -164,7 +164,30 @@ var aparadeway = {
       }
     }
     return arr
-  }
+  },
+  fromPairs: function(pairs){
+    var obj = {};
+    for(var i = 0;i < pairs.length;i++){
+      obj[pairs[i][0]] = pairs[i][1];
+    }
+    return obj
+  },
+  head: function(array){
+    return array[0]
+  },
+  indexOf: function(array,value,fromIndex = 0){
+    for(let i = findIndex;i < array.length;i++){
+      if(array[i] == value){
+        return i
+      }
+    }
+    return -1
+  },
+  initial: function(array){
+    array.length -= 1;
+    return array
+  },
+
 
 }
 
