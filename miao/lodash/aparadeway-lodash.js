@@ -36,11 +36,11 @@ var aparadeway = {
   },
   difference: function(array, values){
     var map = [];
-    for(var i = 0;i < values.legnth;i++){
+    for(var i = 0;i < values.length;i++){
       map[values[i]] = 1;
     }
     var sum = 0;
-    for(var i = 0;i < array.legnth;i++){
+    for(var i = 0;i < array.length;i++){
       if(map[array[i]] == 1){
         array[i] = null;
         sum++;
@@ -55,9 +55,9 @@ var aparadeway = {
         array[p] = array[i];
         p++;
       }
-      array.length -= sum;
-      return array
     }
+    array.length -= sum;
+    return array
   }
 
 
