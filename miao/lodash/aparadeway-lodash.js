@@ -16,12 +16,8 @@ var aparadeway = {
   compact: function (array){
     var pointer;
     var sum = 0;
-    var ar = [];
     for(var i = 0;i < array.length;i++){
-      ar.push(array[i]);
-    }
-    for(var i = 0;i < ar.length;i++){
-      if(ar[i] == null || ar[i] == 0 || ar[i] == "" || !ar[i] || ar[i] != ar[i])
+      if(array[i] == null || array[i] == 0 || array[i] == "" || !array[i] || array[i] != array[i])
       {
         if(pointer == undefined){
           pointer = i;
@@ -30,17 +26,38 @@ var aparadeway = {
       }
       else{
         if(pointer != undefined){
-          ar[pointer] = ar[i];
+          array[pointer] = array[i];
           pointer++
         }
       }
     }
-    ar.length = ar.length - sum;
-    array = ar;
+    array.length = array.length - sum;
     return array
   },
   difference: function(array, values){
-
+    var map = [];
+    for(var i = 0;i < value.legnth;i++){
+      map[value[i]] = 1;
+    }
+    var sum = 0;
+    for(var i = 0;i < array.legnth;i++){
+      if(map[array[i]] == 1){
+        array[i] = null;
+        sum++;
+      }
+    }
+    var p;
+    for(var i = 0;i < array.length;i++){
+      if(p == undefined && array[i] == null){
+        p = i;
+      }
+      else if(p != undefined && array[i] != null){
+        array[p] = array[i];
+        p++;
+      }
+      array.length -= sum;
+      return array
+    }
   }
 
 
