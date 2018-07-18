@@ -138,53 +138,33 @@ var aparadeway = {
     var arr = [];
     Traversal(array);
     function Traversal(ary){
-      if(typeof(ary) == typeof([])){
-        for(var i = 0;i < ary.length;i++){
-          if(typeof(ary[i]) == typeof([])){
-            Traversal(ary[i]);
-          }
-          else{
-            arr.push(ary[i]);
-          }
+      for(var i = 0;i < ary.length;i++){
+        if(typeof(ary[i]) == typeof([])){
+          Traversal(ary[i]);
         }
-      }
-      else{
-        arr.push(arr);
+        else{
+          arr.push(ary[i]);
+        }
       }
     }
     return arr
   },
-  // flattenDepth: function(array,depth = 1){
-  //   var arr = [];
-  //   var index = 0;
-  //   //debugger;
-  //   Traversal(array,depth);
-  //   function Traversal(ary,d){
-  //     debugger;
-  //     while(d <= depth){
-  //       if(typeof(ary) == typeof([])){
-  //         for(var i = 0;i < ary.length;i++){
-  //           if(typeof(ary[i]) == typeof([])){
-  //             Traversal(ary[i],depth + 1);
-  //           }
-  //           else{
-  //             arr[index] = (ary[i]);
-  //             index++;
-  //           }
-  //         }
-  //       }
-  //       else{
-  //         arr[index] = push(arr);
-  //         index++;
-  //       }
-  //       return
-  //     }
-  //     // else{
-  //     //   arr[index] = ary;
-  //     // }
-  //   }
-  //   return arr
-  // }
+  flattenDepth: function(array,depth = 1){
+    var arr = [];
+    var index = 0;
+    Traversal(array,1);
+    function Traversal(ary,d){
+      for(var i = 0;i < ary.length;i++){
+        if(typeof(ary[i]) == typeof([]) && d <= depth){
+          Traversal(ary[i],d + 1);
+        }
+        else{
+          arr.push(ary[i]);
+        }
+      }
+    }
+    return arr
+  }
 
 }
 
