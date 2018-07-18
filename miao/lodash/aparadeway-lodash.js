@@ -34,7 +34,7 @@ var aparadeway = {
     array.length = array.length - sum;
     return array
   },
-  difference: function(array, values){
+  difference: function(array,...values){
     var map = [];
     for(var i = 0;i < values.length;i++){
       for(var j = 0;j < values[i].length;j++){
