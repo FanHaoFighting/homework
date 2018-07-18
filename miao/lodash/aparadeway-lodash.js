@@ -94,8 +94,13 @@ var aparadeway = {
     return array
   },
   dropRight: function(array,n = 1){
-    array.length -= n;
-    return array
+    if(n >= array.length){
+      return []
+    }
+    else{
+      array.length -= n;
+      return array
+    }
   },
   dropRightWhile: function(){
 
@@ -108,6 +113,29 @@ var aparadeway = {
       array[i] = value;
     }
     return array
+  },
+  findIndex: function(){
+
+  },
+  findLastIndex: function(){
+
+  },
+  flatten: function(array){
+    var arr = [];
+    for(var i = 0;i < array.length;i++){
+      if(typeof(array[i]) == typeof([])){
+        for(var j = 0;j < array[i].length;j++){
+          arr.push(array[i][j]);
+        }
+      }
+      else{
+        arr.push(array[i]);
+      }
+    }
+    return arr
+  },
+  flattenDeep: function(){
+    
   }
 
 
