@@ -41,25 +41,29 @@ var aparadeway = {
         map[values[i][j]] = 1;
       }
     }
-    var sum = 0;
+    var arr = [];
     for(var i = 0;i < array.length;i++){
-      if(map[array[i]] == 1){
-        array[i] = null;
+      arr.push(array[i]);
+    }
+    var sum = 0;
+    for(var i = 0;i < a.length;i++){
+      if(map[a[i]] == 1){
+        a[i] = null;
         sum++;
       }
     }
     var p;
-    for(var i = 0;i < array.length;i++){
-      if(p == undefined && array[i] == null){
+    for(var i = 0;i < a.length;i++){
+      if(p == undefined && a[i] == null){
         p = i;
       }
-      else if(p != undefined && array[i] != null){
-        array[p] = array[i];
+      else if(p != undefined && a[i] != null){
+        a[p] = a[i];
         p++;
       }
     }
-    array.length -= sum;
-    return array
+    a.length -= sum;
+    return a
   }
 
 
