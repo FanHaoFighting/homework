@@ -65,20 +65,49 @@ var aparadeway = {
     arr.length -= sum;
     return arr
   },
-  differenceBy: function(){
-    var func = arguments[arguments.length - 1];
+  differenceBy: function(array,...values){
   },
   differenceWith: function(){
-    
-  },
-  drop: function(){
 
   },
-  dropRight: function(){
-
+  drop: function(array,n = 1){
+    let p;
+    let sum = 0;
+    for(let i = 0;i < n;i++){
+      array[i] = null;
+      sum ++;
+    }
+    for(let i = 0;i < array.length;i++){
+      if(p == undefined){
+        if(array[i] == null){
+          p = i;
+        }
+      }
+      else{
+        if(array[i] != null){
+          array[p] = array[i];
+          p++;
+        }
+      }
+    }
+    array.length -= sum;
+    return array
+  },
+  dropRight: function(array,n = 1){
+    array.length -= n;
+    return array
   },
   dropRightWhile: function(){
-    
+
+  },
+  dropWhile: function(){
+
+  },
+  fill:function(array,value,start = 0,end = array.length){
+    for(var i = start;i < end;i++){
+      array[i] = value;
+    }
+    return array
   }
 
 
