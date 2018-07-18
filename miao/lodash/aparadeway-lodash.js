@@ -176,7 +176,7 @@ var aparadeway = {
     return array[0]
   },
   indexOf: function(array,value,fromIndex = 0){
-    for(let i = findIndex;i < array.length;i++){
+    for(let i = fromIndex;i < array.length;i++){
       if(array[i] == value){
         return i
       }
