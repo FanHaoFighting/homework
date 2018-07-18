@@ -64,6 +64,21 @@ var aparadeway = {
     }
     arr.length -= sum;
     return arr
+  },
+  differenceBy: function(){
+    var func = arguments[arguments.length - 1];
+  },
+  differenceWith: function(){
+    
+  },
+  drop: function(){
+
+  },
+  dropRight: function(){
+
+  },
+  dropRightWhile: function(){
+    
   }
 
 
