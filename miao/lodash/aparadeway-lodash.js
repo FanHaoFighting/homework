@@ -16,8 +16,12 @@ var aparadeway = {
   compact: function (array){
     var pointer;
     var sum = 0;
+    var ar = [];
     for(var i = 0;i < array.length;i++){
-      if(array[i] == null || array[i] == 0 || array[i] == "" || !array[i] || array[i] != array[i])
+      ar.push(array[i]);
+    }
+    for(var i = 0;i < ar.length;i++){
+      if(ar[i] == null || ar[i] == 0 || ar[i] == "" || !ar[i] || ar[i] != ar[i])
       {
         if(pointer == undefined){
           pointer = i;
@@ -26,13 +30,17 @@ var aparadeway = {
       }
       else{
         if(pointer != undefined){
-          array[pointer] = array[i];
+          ar[pointer] = ar[i];
           pointer++
         }
       }
     }
-    array.length = array.length - sum;
+    ar.length = ar.length - sum;
+    array = ar;
     return array
+  },
+  difference: function(array, values){
+
   }
 
 
