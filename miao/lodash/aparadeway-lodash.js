@@ -239,13 +239,13 @@ var aparadeway = {
           }
         }
       }
-      else if(typeof(iteratee) == 'string'){
+      else if(typeof(iteratee) == typeof('')){
         for(let i = 0;i < collection.length;i++){
-          if(obj[iteratee] == undefined){
-            obj[iteratee] = [];
+          if(obj[collection[i][iteratee]] == undefined){
+            obj[collection[i][iteratee]] = [];
           }
-          if(obj[iteratee] != undefined){
-            obj[iteratee].push(collection[i][iteratee]);
+          if(obj[collection[i][iteratee]] != undefined){
+            obj[collection[i][iteratee]].push(collection[i][iteratee]);
           }
         }
       }
