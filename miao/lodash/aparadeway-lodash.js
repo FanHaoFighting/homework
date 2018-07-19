@@ -285,7 +285,7 @@ var aparadeway = {
     else{
       var res = [];
       for(var i in collection){
-        res.push(iteratee(collection[i]));
+        res.push(iteratee(collection[i],i));
       }
       return res
     }
@@ -293,6 +293,17 @@ var aparadeway = {
   identity:function(){
     return arguments[0]
   },
+  filter:function(collection,predicate){
+    if(!predicate || predicate == undefined){
+      return collection
+    }
+    else{
+      var res = [];
+      for(let i in collection){
+        predicate(collection[i],i)?res.push(collection[i]);
+      }
+    }
+  }
 
 }
 
