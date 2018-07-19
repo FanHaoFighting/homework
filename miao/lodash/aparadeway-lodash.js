@@ -215,7 +215,7 @@ var aparadeway = {
   join: function(array,separator = ','){
     let str = '';
     for(let i = 0;i < array.length - 1;i++){
-      str += array[i] + separator;
+      str += array[i] + ('' + separator);
     }
     str += array[array.length - 1];
     return str
