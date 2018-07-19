@@ -300,7 +300,9 @@ var aparadeway = {
     else{
       var res = [];
       for(let i in collection){
-        predicate(collection[i],i)?res.push(collection[i]);
+        if(predicate(collection[i],i)){
+          res.push(collection[i]);
+        }
       }
     }
   }
