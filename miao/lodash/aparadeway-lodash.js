@@ -261,8 +261,11 @@ var aparadeway = {
       }
     }
     else{
-      for(var i = 0;i < collection.length;i++){
-        accumulator = iteratee(accumulator,collection[i]);
+      if(typeof(collection[0]) === typeof(1) && (!accumulator || accumulator == undefined)){
+        accumulator = 0;
+      }
+      for(let i in collection){
+        accumulator = iteratee(accumulator,collection[i],i);
       }
       return accumulator
     }
@@ -274,8 +277,22 @@ var aparadeway = {
       }
     }
     return false
-  }
-
+  },
+  map:function(collection,iteratee){
+    if(!iteratee || iteratee == undefined){
+      return collection
+    }
+    else{
+      var res = [];
+      for(var i in collection){
+        res.push(iteratee(collection[i]));
+      }
+      return res
+    }
+  },
+  identity:function(){
+    return arguments[0]
+  },
 
 }
 
