@@ -187,6 +187,71 @@ var aparadeway = {
     array.length -= 1;
     return array
   },
+  intersection: function(...arrays){
+    if(arrays.length == 0){
+      return []
+    }
+    else{
+      let res = [];
+      let map = [];
+      for(let i = 0;i < arrays.length;i++){
+        for(var j = 0;j < arrays[0].length;j++){
+          if(map[arrays[i][j]] == undefined){
+            map[arrays[i][j]] = 1;
+          }
+          else{
+            map[arrays[i][j]]++;
+          }
+        }
+      }
+      for(let i = 0;i < map;i++){
+        if(map[i] != undefined && map[i] > 0){
+          res.push(map[i]);
+        }
+      }
+      return res
+    }
+  },
+  join: function(array,separator = ','){
+    let str = '';
+    for(let i = 0;i < array.length - 1;i++){
+      str += array[i] + separator;
+    }
+    str += array[array.length - 1];
+    return str
+  },
+  last: function(array){
+    return array[array.length - 1];
+  },
+  groupBy: function(collection,iteratee){
+    if(!iteratee || iteratee == undefined || iteratee.length == 0){
+      return collection
+    }
+    else{
+      let obj = {};
+      if(typeof(iteratee) == 'function'){
+        for(let i = 0;i < collection.length;i++){
+          if(obj[iteratee(collection[i])] == undefined){
+            obj[iteratee(collection[i])] = [];
+          }
+          if(obj[iteratee(collection[i])] != undefined){
+            obj[iteratee(collection[i])].push(collection[i]);
+          }
+        }
+      }
+      else if(typeof(iteratee) == 'string'){
+        for(let i = 0;i < collection.length;i++){
+          if(obj[iteratee] == undefined){
+            obj[iteratee] = [];
+          }
+          if(obj[iteratee] != undefined){
+            obj[iteratee].push(collection[i][iteratee]);
+          }
+        }
+      }
+      return obj
+    }
+  }
 
 
 }
