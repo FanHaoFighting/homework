@@ -204,8 +204,8 @@ var aparadeway = {
           }
         }
       }
-      for(let i = 0;i < map;i++){
-        if(map[i] != undefined && map[i] > 0){
+      for(let i = 0;i < map.length;i++){
+        if(map[i] != undefined && map[i] > 1){
           res.push(map[i]);
         }
       }
