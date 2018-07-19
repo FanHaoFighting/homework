@@ -114,8 +114,10 @@ var aparadeway = {
     }
     return array
   },
-  findIndex: function(){
+  findIndex: function(array, predicate,fromIndex = 0){
+    for(var i = fromIndex;i < array.length;i++){
 
+    }
   },
   findLastIndex: function(){
 
@@ -251,6 +253,27 @@ var aparadeway = {
       }
       return obj
     }
+  },
+  reduce: function(collection,iteratee,accumulator){
+    if(arguments.length == 1){
+      if(collection.length <= 1){
+        return collection
+      }
+    }
+    else{
+      for(var i = 0;i < collection.length;i++){
+        accumulator = iteratee(accumulator,collection[i]);
+      }
+      return accumulator
+    }
+  },
+  includes: function(collection,value,fromIndex = 0){
+    for(var i = fromIndex;i < collection.length;i++){
+      if(collection[i] === value){
+        return true
+      }
+    }
+    return false
   }
 
 
