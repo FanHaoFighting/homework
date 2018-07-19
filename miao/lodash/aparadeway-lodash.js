@@ -245,7 +245,7 @@ var aparadeway = {
             obj[collection[i][iteratee]] = [];
           }
           if(obj[collection[i][iteratee]] != undefined){
-            obj[collection[i][iteratee]].push(collection[i][iteratee]);
+            obj[collection[i][iteratee]].push(collection[i]);
           }
         }
       }
