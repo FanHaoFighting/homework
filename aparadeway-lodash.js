@@ -94,8 +94,13 @@ var aparadeway = {
     return array
   },
   dropRight: function(array,n = 1){
-    array.length -= n;
-    return array
+    if(n >= array.length){
+      return []
+    }
+    else{
+      array.length -= n;
+      return array
+    }
   },
   dropRightWhile: function(){
 
@@ -129,6 +134,124 @@ var aparadeway = {
     }
     return arr
   },
+  flattenDeep: function(array){
+    var arr = [];
+    Traversal(array);
+    function Traversal(ary){
+      for(var i = 0;i < ary.length;i++){
+        if(typeof(ary[i]) == typeof([])){
+          Traversal(ary[i]);
+        }
+        else{
+          arr.push(ary[i]);
+        }
+      }
+    }
+    return arr
+  },
+  flattenDepth: function(array,depth = 1){
+    var arr = [];
+    var index = 0;
+    Traversal(array,1);
+    function Traversal(ary,d){
+      for(var i = 0;i < ary.length;i++){
+        if(typeof(ary[i]) == typeof([]) && d <= depth){
+          Traversal(ary[i],d + 1);
+        }
+        else{
+          arr.push(ary[i]);
+        }
+      }
+    }
+    return arr
+  },
+  fromPairs: function(pairs){
+    var obj = {};
+    for(var i = 0;i < pairs.length;i++){
+      obj[pairs[i][0]] = pairs[i][1];
+    }
+    return obj
+  },
+  head: function(array){
+    return array[0]
+  },
+  indexOf: function(array,value,fromIndex = 0){
+    for(let i = fromIndex;i < array.length;i++){
+      if(array[i] == value){
+        return i
+      }
+    }
+    return -1
+  },
+  initial: function(array){
+    array.length -= 1;
+    return array
+  },
+  intersection: function(...arrays){
+    if(arrays.length == 0){
+      return []
+    }
+    else{
+      let res = [];
+      let map = [];
+      for(let i = 0;i < arrays.length;i++){
+        for(var j = 0;j < arrays[0].length;j++){
+          if(map[arrays[i][j]] == undefined){
+            map[arrays[i][j]] = 1;
+          }
+          else{
+            map[arrays[i][j]]++;
+          }
+        }
+      }
+      for(let i = 0;i < map;i++){
+        if(map[i] != undefined && map[i] > 0){
+          res.push(map[i]);
+        }
+      }
+      return res
+    }
+  },
+  join: function(array,separator = ','){
+    let str = '';
+    for(let i = 0;i < array.length - 1;i++){
+      str += array[i] + separator;
+    }
+    str += array[array.length - 1];
+    return str
+  },
+  last: function(array){
+    return array[array.length - 1];
+  },
+  groupBy: function(collection,iteratee){
+    if(!iteratee || iteratee == undefined || iteratee.length == 0){
+      return collection
+    }
+    else{
+      let obj = {};
+      if(typeof(iteratee) == 'function'){
+        for(let i = 0;i < collection.length;i++){
+          if(obj[iteratee(collection[i])] == undefined){
+            obj[iteratee(collection[i])] = [];
+          }
+          if(obj[iteratee(collection[i])] != undefined){
+            obj[iteratee(collection[i])].push(collection[i]);
+          }
+        }
+      }
+      else if(typeof(iteratee) == 'string'){
+        for(let i = 0;i < collection.length;i++){
+          if(obj[iteratee] == undefined){
+            obj[iteratee] = [];
+          }
+          if(obj[iteratee] != undefined){
+            obj[iteratee].push(collection[i][iteratee]);
+          }
+        }
+      }
+      return obj
+    }
+  }
 
 
 }
