@@ -50,6 +50,11 @@ var aparadeway = {
     }
     return false
   },
+  matches:function(source){
+    return function(object){
+      return this.isMatch(object,source);
+    }
+  },
   isArray:function(value){
     return (Object.prototype.toString.call(value) === '[object Array]')
   },
@@ -99,7 +104,34 @@ var aparadeway = {
       }
     }
     return arr
-  }
+  },
+  indexOf:function(array,value,fromIndex = 0){
+    let sizeOfArray = array.length;
+    if(fromIndex < 0){
+      fromIndex = sizeOfArray - 1;
+    }
+    for(let i = fromIndex;i < sizeOfArray;i++){
+      if(array[i] === value){
+        return i
+      }
+    }
+    return -1
+  },
+  // filter:function(collection,predicate = this.identity){
+  //   let arr = [];
+  //   let keys = this.keys(collection);
+  //   if(typeof predicate !== 'function'){
+      
+  //   }
+  //   for(let i = 0;i < keys.length;i++){
+  //     if(predicate(collection[keys[i]])){
+  //       arr.push(collection[keys[i]]))
+  //     }
+  //   }
+  //   return arr
+  // },
+  // difference:function(array,...values){
+  // }
 }
 
 
