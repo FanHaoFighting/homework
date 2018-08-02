@@ -6,7 +6,7 @@ var aparadeway = {
     return Object.keys(object)
   },
   isObject:function(value){
-    return (typeof value === 'object' || typeof value === 'function')
+    return (value instanceof Object)
   },
   isEqual:function(value,other){
     if(value === other || (value !== value && other !== other)){
@@ -49,6 +49,48 @@ var aparadeway = {
       }
     }
     return false
+  },
+  isArray:function(value){
+    return (Object.prototype.toString.call(value) === '[object Array]')
+  },
+  concat:function(array,values = []){
+    if(this.isArray(values)){
+      let index = 0;
+      let len = array.length + values.length;
+      for(let i = array.length;i < len;i++){
+        array[i] = values[index];
+        index++;
+      }
+    }
+    else{
+      array[array.length] = values;
+    }
+    return array
+  },
+  slice:function(array,start = 0,end = array.length){
+    let arr = [];
+    for(let i = start;i < end;i++){
+      arr.push(array[i]);
+    }
+    return arr
+  },
+  chunk:function(array,size = 1){
+    let arr = [];
+    let len = array.length;
+    for(let i = 0;i < len;i += size){
+      arr.push(this.slice(array,i,i + size));
+    }
+    return arr
+  },
+  compact:function(array){
+    let arr = [];
+    let len = array.length;
+    for(let i = 0;i < len;i++){
+      if(array[i]){
+        arr.push(array[i]);
+      }
+    }
+    return arr
   }
 }
 
