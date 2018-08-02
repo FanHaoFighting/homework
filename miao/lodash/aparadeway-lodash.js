@@ -53,24 +53,32 @@ var aparadeway = {
   isArray:function(value){
     return (Object.prototype.toString.call(value) === '[object Array]')
   },
-  concat:function(array,values = []){
-    if(this.isArray(values)){
-      let index = 0;
-      let len = array.length + values.length;
-      for(let i = array.length;i < len;i++){
-        array[i] = values[index];
-        index++;
+  concat:function(array,...values){
+    let arr = [];
+    let sizeOfArray = array.length;
+    let sizeOfValues = values.length;
+    for(let i = 0;i < sizeOfArray;i++){
+      arr.push(array[i]);
+    }
+    for(let i = 0;i < sizeOfValues;i++){
+      if(this.isArray(values[i])){
+        let sizeOfValue = values[i].length;
+        for(let j = 0;j < sizeOfValue;j++){
+          arr.push(values[i][j]);
+        }
+      }
+      else{
+        arr.push(values[i]);
       }
     }
-    else{
-      array[array.length] = values;
-    }
-    return array
+    return arr
   },
   slice:function(array,start = 0,end = array.length){
     let arr = [];
     for(let i = start;i < end;i++){
-      arr.push(array[i]);
+      if(array[i]){
+        arr.push(array[i]);
+      }
     }
     return arr
   },
