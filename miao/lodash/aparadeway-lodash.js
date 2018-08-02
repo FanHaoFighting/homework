@@ -6,7 +6,7 @@ var aparadeway = {
     return Object.keys(object)
   },
   isObject:function(value){
-    return (typeof value === 'object')
+    return (typeof value === 'object' || typeof value === 'function')
   },
   isEqual:function(value,other){
     if(value === other || (value !== value && other !== other)){
@@ -44,7 +44,7 @@ var aparadeway = {
       if(object[objects[i]] === source[objects[i]]){
         return true
       }
-      if(this.isEqual(object[objects[i]],source)){
+      if(this.isEqual(object[objects[i]],source[objects[i]])){
         return true
       }
     }
