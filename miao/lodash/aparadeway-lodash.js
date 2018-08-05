@@ -51,12 +51,37 @@ var aparadeway = {
     return false
   },
   matches:function(source){
+    let that = this;
     return function(object){
-      return this.isMatch(object,source);
+      return that.isMatch(object,source);
+    }
+  },
+  matchesProperty:function(path,srcValue){
+    let that = this;
+    return function(object){
+      if(!object || !object[path]){
+        return false
+      }
+      else{
+        if(that.isEqual(object[path],srcValue)){
+          return true
+        }
+        else{
+          return false
+        }
+      }
     }
   },
   isArray:function(value){
     return (Object.prototype.toString.call(value) === '[object Array]')
+  },
+  iteratee:function(func = this.identity){
+    if(Array.isArray(func)){
+      return this.matchesProperty
+    }
+    else if(func instanceof Object){
+      return this.matches(func)
+    }
   },
   concat:function(array,...values){
     let arr = [];
@@ -117,21 +142,21 @@ var aparadeway = {
     }
     return -1
   },
-  // filter:function(collection,predicate = this.identity){
-  //   let arr = [];
-  //   let keys = this.keys(collection);
-  //   if(typeof predicate !== 'function'){
-      
-  //   }
-  //   for(let i = 0;i < keys.length;i++){
-  //     if(predicate(collection[keys[i]])){
-  //       arr.push(collection[keys[i]]))
-  //     }
-  //   }
-  //   return arr
-  // },
-  // difference:function(array,...values){
-  // }
+  flatten:function(array){
+    return this.concat([],...array);
+  },
+  flattenDeep:function(array){
+    let res = [];
+    for(let i = 0;i < array.length;i++){
+      if(Array.isArray(array[i])){
+        res = this.concat(res,this.flattenDeep(array[i]));
+      }
+      else{
+        res = this.concat(res,array[i]);
+      }
+    }
+    return res
+  }
 }
 
 
