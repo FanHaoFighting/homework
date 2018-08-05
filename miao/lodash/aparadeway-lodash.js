@@ -56,6 +56,26 @@ var aparadeway = {
       return that.isMatch(object,source);
     }
   },
+  property:function(path){
+    return function(object){
+      if(!object){
+        return
+      }
+      if(Array.isArray(path)){
+        let res = object;
+        for(let i = 0;i < path.length;i++){
+          res = res[path[i]];
+          if(!res){
+            return res
+          }
+        }
+        return res
+      }
+      else{
+        return object[path]
+      }
+    }
+  },
   matchesProperty:function(path,srcValue){
     let that = this;
     return function(object){
@@ -77,10 +97,13 @@ var aparadeway = {
   },
   iteratee:function(func = this.identity){
     if(Array.isArray(func)){
-      return this.matchesProperty
+      return this.matchesProperty(func[0],func[1])
     }
     else if(func instanceof Object){
       return this.matches(func)
+    }
+    else if(typeof func === 'string'){
+      return this.property(func)
     }
   },
   concat:function(array,...values){
