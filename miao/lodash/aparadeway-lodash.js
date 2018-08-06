@@ -118,8 +118,15 @@ var aparadeway = {
     }
     return res
   },
-  reduce:function(){
-
+  reduce:function(collection,iteratee = this.identity,accumulator){
+    let keys = this.keys(collection);
+    let i = accumulator?0:1;
+    accumulator = !accumulator?collection[keys[0]]:accumulator;
+    let res = accumulator?accumulator:collection[keys[0]];
+    for(i;i < keys.length;i++){
+      res = iteratee(res,collection[keys[i]],keys[i],collection);
+    }
+    return res
   },
   concat:function(array,...values){
     let arr = [];
