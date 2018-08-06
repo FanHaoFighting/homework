@@ -99,12 +99,27 @@ var aparadeway = {
     if(Array.isArray(func)){
       return this.matchesProperty(func[0],func[1])
     }
+    else if(typeof func === 'function'){
+      return func
+    }
     else if(func instanceof Object){
       return this.matches(func)
     }
     else if(typeof func === 'string'){
       return this.property(func)
     }
+  },
+  map:function(collection,iteratee = this.identity){
+    iteratee = this.iteratee(iteratee);
+    let res = [];
+    let keys = this.keys(collection);
+    for(let i = 0;i < keys.length;i++){
+      res.push(iteratee(collection[keys[i]],keys[i],collection));
+    }
+    return res
+  },
+  reduce:function(){
+
   },
   concat:function(array,...values){
     let arr = [];
@@ -156,7 +171,7 @@ var aparadeway = {
   indexOf:function(array,value,fromIndex = 0){
     let sizeOfArray = array.length;
     if(fromIndex < 0){
-      fromIndex = sizeOfArray - 1;
+      fromIndex = 0;
     }
     for(let i = fromIndex;i < sizeOfArray;i++){
       if(array[i] === value){
@@ -179,6 +194,23 @@ var aparadeway = {
       }
     }
     return res
+  },
+  difference:function(array,...values){
+    let that = this;
+    return array.filter(function(item,index,arr){
+      return that.indexOf(that.concat([],...values),item) == -1
+    })
+  },
+  differenceBy:function(array,...values){
+    let iteratee = this.iteratee(values[values.length - 1])
+    values.length -= 1;
+    let that = this;
+    return array.filter(function(item,index){
+      if(that.concat([],...values).map(function(it,idx){
+        return iteratee(it);
+      }).indexOf(iteratee(item)) == -1)
+      return item
+    })
   }
 }
 
