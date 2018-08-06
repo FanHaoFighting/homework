@@ -202,6 +202,9 @@ var aparadeway = {
     })
   },
   differenceBy:function(array,...values){
+    if(Array.isArray(values[values.length - 1])){
+      return this.difference(array,...values);
+    }
     let iteratee = this.iteratee(values[values.length - 1])
     values.length -= 1;
     let that = this;
