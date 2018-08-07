@@ -56,23 +56,34 @@ var aparadeway = {
       return that.isMatch(object,source);
     }
   },
+  get:function(object,path,defaultValue){
+    let arr;
+    if(typeof path === 'string'){
+      let reg = /\b\w+\b/g;
+      arr = path.match(reg);
+    }
+    else if(Array.isArray(path)){
+      arr = this.flattenDeep(path);
+    }
+    let temp = object;
+    for(let i = 0;i < arr.length;i++){
+      if(!temp[arr[i]]){
+        return defaultValue
+      }
+      else{
+        temp = temp[arr[i]];
+      }
+    }
+    return temp
+  },
   property:function(path){
+    let that = this;
     return function(object){
       if(!object){
         return
       }
-      if(Array.isArray(path)){
-        let res = object;
-        for(let i = 0;i < path.length;i++){
-          res = res[path[i]];
-          if(!res){
-            return res
-          }
-        }
-        return res
-      }
       else{
-        return object[path]
+        return that.get(object,path)
       }
     }
   },
@@ -112,9 +123,17 @@ var aparadeway = {
   map:function(collection,iteratee = this.identity){
     iteratee = this.iteratee(iteratee);
     let res = [];
-    let keys = this.keys(collection);
-    for(let i = 0;i < keys.length;i++){
-      res.push(iteratee(collection[keys[i]],keys[i],collection));
+    if(Array.isArray(collection)){
+      for(let i = 0;i < collection.length;i++){
+        res.push(iteratee(collection[i],i,collection));
+      }
+    }
+    else{
+      for(let i in collection){
+        if(collection.hasOwnProperty(i)){
+          res.push(iteratee(collection[i],i,collection));
+        }
+      }
     }
     return res
   },
@@ -221,6 +240,9 @@ var aparadeway = {
       }).indexOf(iteratee(item)) == -1)
       return item
     })
+  },
+  differenceWith:function(array,...values){
+    let comparator = values[values.length - 1];
   }
 }
 
