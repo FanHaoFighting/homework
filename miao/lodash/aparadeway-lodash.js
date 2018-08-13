@@ -38,17 +38,17 @@ var aparadeway = {
     if(this.isEqual(object,source)){
       return true
     }
-    let objects = this.keys(object);
-    let sizeOfObjects = objects.length;
-    for(let i = 0;i < sizeOfObjects;i++){
-      if(object[objects[i]] === source[objects[i]]){
-        return true
+    let sources = this.keys(source);
+    let sizeOfSources = sources.length;
+    for(let i = 0;i < sizeOfSources;i++){
+      if(object[sources[i]] == undefined || object[sources[i]] !== source[sources[i]]){
+        return false
       }
-      if(this.isEqual(object[objects[i]],source[objects[i]])){
-        return true
+      else if(this.isEqual(object[sources[i]],source[sources[i]])){
+        continue;
       }
     }
-    return false
+    return true
   },
   matches:function(source){
     let that = this;
@@ -67,14 +67,14 @@ var aparadeway = {
     }
     let temp = object;
     for(let i = 0;i < arr.length;i++){
-      if(!temp[arr[i]]){
+      if(temp[arr[i]] == undefined){
         return defaultValue
       }
       else{
         temp = temp[arr[i]];
       }
     }
-    return temp
+    return temp == undefined
   },
   property:function(path){
     let that = this;
@@ -90,7 +90,7 @@ var aparadeway = {
   matchesProperty:function(path,srcValue){
     let that = this;
     return function(object){
-      if(!object || !object[path]){
+      if(object == undefined || object[path] == undefined){
         return false
       }
       else{
@@ -146,6 +146,20 @@ var aparadeway = {
       res = iteratee(res,collection[keys[i]],keys[i],collection);
     }
     return res
+  },
+  filter:function(collection,predicate){
+    if(!predicate){
+      return collection
+    }
+    predicate = this.iteratee(predicate);
+    let arr = [];
+    let keys = this.keys(collection);
+    for(let i = 0;i < keys.length;i++){
+      if(predicate(collection[keys[i]],keys[i],collection)){
+        arr.push(collection[keys[i]]);
+      }
+    }
+    return arr
   },
   concat:function(array,...values){
     let arr = [];
@@ -242,8 +256,41 @@ var aparadeway = {
     })
   },
   differenceWith:function(array,...values){
-    let comparator = values[values.length - 1];
+    if(typeof values[values.length - 1] !== 'function'){
+      return this.difference(array,...values);
+    }
+    else{
+      let comparator = values[values.length - 1];
+      values.length -= 1;
+      return array.filter(function(item,index){
+        for(let i = 0;i < values.length;i++){
+          if(comparator(item,values[i])){
+            return false
+          }
+        }
+        return true
+      })
+    }
+  },
+  drop:function(array,number = 1){
+    return array.slice(number);
+  },
+  dropRight:function(array,number = 1){
+    if(number > array.length){
+      number = array.length;
+    }
+    array.length -= number;
+    return array
+  },
+  dropRightWhile:function(array,predicate = this.identity){
+    if(!(typeof predicate == 'function')){
+      predicate = this.iteratee(predicate);
+    }
+    return array.filter(function(item,index,arr){
+      return !predicate(item)
+
+    })
+
   }
 }
-
 
