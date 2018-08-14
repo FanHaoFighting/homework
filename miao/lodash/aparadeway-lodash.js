@@ -74,12 +74,12 @@ var aparadeway = {
         temp = temp[arr[i]];
       }
     }
-    return temp == undefined
+    return temp
   },
   property:function(path){
     let that = this;
     return function(object){
-      if(!object){
+      if(object == undefined){
         return
       }
       else{
@@ -286,11 +286,12 @@ var aparadeway = {
     if(!(typeof predicate == 'function')){
       predicate = this.iteratee(predicate);
     }
-    return array.filter(function(item,index,arr){
-      return !predicate(item)
-
-    })
-
+    for(let i = array.length - 1;i >= 0;i--){
+      if(predicate(array[i],i,array) === false){
+        array.length = i + 1;
+        return array
+      }
+    }
   }
 }
 
