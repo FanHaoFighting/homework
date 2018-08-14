@@ -1,4 +1,14 @@
 var aparadeway = {
+  // 获取里头函数个数
+  get size(){
+    let count = 0;
+    for(let i in aparadeway){
+      if(aparadeway.hasOwnProperty(i)){
+        count++;
+      }
+    }
+    return count - 1
+  },
   identity:function(value){
     return value
   },
@@ -9,6 +19,7 @@ var aparadeway = {
     return (value instanceof Object)
   },
   isEqual:function(value,other){
+    var that = aparadeway;
     if(value === other || (value !== value && other !== other)){
       return true
     }
@@ -16,15 +27,15 @@ var aparadeway = {
       return false
     }
     //判断引用类型
-    if(this.isObject(value) === true && this.isObject(other) === true){
-      let values = this.keys(value);
-      let others = this.keys(other);
+    if(that.isObject(value) === true && that.isObject(other) === true){
+      let values = that.keys(value);
+      let others = that.keys(other);
       let lengthOfValues = values.length;
       if(lengthOfValues !== others.length){
         return false
       }
       for(let i = 0;i < lengthOfValues;i++){
-        if(value[values[i]] === value[values[i]] && value[values[i]] !== other[values[i]] && (!this.isEqual(value[values[i]],other[values[i]]))){
+        if(value[values[i]] === value[values[i]] && value[values[i]] !== other[values[i]] && (!that.isEqual(value[values[i]],other[values[i]]))){
           return false
         }
       }
@@ -262,6 +273,7 @@ var aparadeway = {
     else{
       let comparator = values[values.length - 1];
       values.length -= 1;
+      values = this.flatten(values);
       return array.filter(function(item,index){
         for(let i = 0;i < values.length;i++){
           if(comparator(item,values[i])){
