@@ -41,11 +41,11 @@ var aparadeway = {
     let sources = this.keys(source);
     let sizeOfSources = sources.length;
     for(let i = 0;i < sizeOfSources;i++){
-      if(object[sources[i]] == undefined || object[sources[i]] !== source[sources[i]]){
-        return false
-      }
-      else if(this.isEqual(object[sources[i]],source[sources[i]])){
+      if(this.isEqual(object[sources[i]],source[sources[i]])){
         continue;
+      }
+      else if(object[sources[i]] == undefined || object[sources[i]] !== source[sources[i]]){
+        return false
       }
     }
     return true
