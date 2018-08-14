@@ -1,25 +1,16 @@
-var aparadeway = {
-  // 获取里头函数个数
-  get size(){
-    let count = 0;
-    for(let i in aparadeway){
-      if(aparadeway.hasOwnProperty(i)){
-        count++;
-      }
-    }
-    return count - 1
-  },
-  identity:function(value){
+aparadeway = function(){
+
+  function identity(value){
     return value
-  },
-  keys:function(object){
+  }
+
+  function keys(object){
     return Object.keys(object)
-  },
-  isObject:function(value){
+  }
+  function isObject(value){
     return (value instanceof Object)
-  },
-  isEqual:function(value,other){
-    var that = aparadeway;
+  }
+  function isEqual(value,other){
     if(value === other || (value !== value && other !== other)){
       return true
     }
@@ -27,15 +18,15 @@ var aparadeway = {
       return false
     }
     //判断引用类型
-    if(that.isObject(value) === true && that.isObject(other) === true){
-      let values = that.keys(value);
-      let others = that.keys(other);
+    if(isObject(value) === true && isObject(other) === true){
+      let values = keys(value);
+      let others = keys(other);
       let lengthOfValues = values.length;
       if(lengthOfValues !== others.length){
         return false
       }
       for(let i = 0;i < lengthOfValues;i++){
-        if(value[values[i]] === value[values[i]] && value[values[i]] !== other[values[i]] && (!that.isEqual(value[values[i]],other[values[i]]))){
+        if(value[values[i]] === value[values[i]] && value[values[i]] !== other[values[i]] && (!isEqual(value[values[i]],other[values[i]]))){
           return false
         }
       }
@@ -44,15 +35,15 @@ var aparadeway = {
     else{
       return false
     }
-  },
-  isMatch:function(object,source){
-    if(this.isEqual(object,source)){
+  }
+  function isMatch(object,source){
+    if(isEqual(object,source)){
       return true
     }
-    let sources = this.keys(source);
+    let sources = keys(source);
     let sizeOfSources = sources.length;
     for(let i = 0;i < sizeOfSources;i++){
-      if(this.isEqual(object[sources[i]],source[sources[i]])){
+      if(isEqual(object[sources[i]],source[sources[i]])){
         continue;
       }
       else if(object[sources[i]] == undefined || object[sources[i]] !== source[sources[i]]){
@@ -60,21 +51,20 @@ var aparadeway = {
       }
     }
     return true
-  },
-  matches:function(source){
-    let that = this;
-    return function(object){
-      return that.isMatch(object,source);
+  }
+  function matches(source){
+    return function (object){
+      return isMatch(object,source);
     }
-  },
-  get:function(object,path,defaultValue){
+  }
+  function get(object,path,defaultValue){
     let arr;
     if(typeof path === 'string'){
       let reg = /\b\w+\b/g;
       arr = path.match(reg);
     }
     else if(Array.isArray(path)){
-      arr = this.flattenDeep(path);
+      arr = flattenDeep(path);
     }
     let temp = object;
     for(let i = 0;i < arr.length;i++){
@@ -86,26 +76,24 @@ var aparadeway = {
       }
     }
     return temp
-  },
-  property:function(path){
-    let that = this;
-    return function(object){
+  }
+  function property(path){
+    return function (object){
       if(object == undefined){
         return
       }
       else{
-        return that.get(object,path)
+        return get(object,path)
       }
     }
-  },
-  matchesProperty:function(path,srcValue){
-    let that = this;
-    return function(object){
+  }
+  function matchesProperty(path,srcValue){
+    return function (object){
       if(object == undefined || object[path] == undefined){
         return false
       }
       else{
-        if(that.isEqual(object[path],srcValue)){
+        if(isEqual(object[path],srcValue)){
           return true
         }
         else{
@@ -113,26 +101,26 @@ var aparadeway = {
         }
       }
     }
-  },
-  isArray:function(value){
+  }
+  function isArray(value){
     return (Object.prototype.toString.call(value) === '[object Array]')
-  },
-  iteratee:function(func = this.identity){
+  }
+  function iteratee(func = identity){
     if(Array.isArray(func)){
-      return this.matchesProperty(func[0],func[1])
+      return matchesProperty(func[0],func[1])
     }
     else if(typeof func === 'function'){
       return func
     }
     else if(func instanceof Object){
-      return this.matches(func)
+      return matches(func)
     }
     else if(typeof func === 'string'){
-      return this.property(func)
+      return property(func)
     }
-  },
-  map:function(collection,iteratee = this.identity){
-    iteratee = this.iteratee(iteratee);
+  }
+  function map(collection,iteratee = identity){
+    iteratee = iteratee(iteratee);
     let res = [];
     if(Array.isArray(collection)){
       for(let i = 0;i < collection.length;i++){
@@ -147,9 +135,9 @@ var aparadeway = {
       }
     }
     return res
-  },
-  reduce:function(collection,iteratee = this.identity,accumulator){
-    let keys = this.keys(collection);
+  }
+  function reduce(collection,iteratee = identity,accumulator){
+    let keys = keys(collection);
     let i = accumulator?0:1;
     accumulator = !accumulator?collection[keys[0]]:accumulator;
     let res = accumulator?accumulator:collection[keys[0]];
@@ -157,22 +145,22 @@ var aparadeway = {
       res = iteratee(res,collection[keys[i]],keys[i],collection);
     }
     return res
-  },
-  filter:function(collection,predicate){
+  }
+  function filter(collection,predicate){
     if(!predicate){
       return collection
     }
-    predicate = this.iteratee(predicate);
+    predicate = iteratee(predicate);
     let arr = [];
-    let keys = this.keys(collection);
+    let keys = keys(collection);
     for(let i = 0;i < keys.length;i++){
       if(predicate(collection[keys[i]],keys[i],collection)){
         arr.push(collection[keys[i]]);
       }
     }
     return arr
-  },
-  concat:function(array,...values){
+  }
+  function concat(array,...values){
     let arr = [];
     let sizeOfArray = array.length;
     let sizeOfValues = values.length;
@@ -180,7 +168,7 @@ var aparadeway = {
       arr.push(array[i]);
     }
     for(let i = 0;i < sizeOfValues;i++){
-      if(this.isArray(values[i])){
+      if(isArray(values[i])){
         let sizeOfValue = values[i].length;
         for(let j = 0;j < sizeOfValue;j++){
           arr.push(values[i][j]);
@@ -191,8 +179,8 @@ var aparadeway = {
       }
     }
     return arr
-  },
-  slice:function(array,start = 0,end = array.length){
+  }
+  function slice(array,start = 0,end = array.length){
     let arr = [];
     for(let i = start;i < end;i++){
       if(array[i]){
@@ -200,16 +188,16 @@ var aparadeway = {
       }
     }
     return arr
-  },
-  chunk:function(array,size = 1){
+  }
+  function chunk(array,size = 1){
     let arr = [];
     let len = array.length;
     for(let i = 0;i < len;i += size){
-      arr.push(this.slice(array,i,i + size));
+      arr.push(slice(array,i,i + size));
     }
     return arr
-  },
-  compact:function(array){
+  }
+  function compact(array){
     let arr = [];
     let len = array.length;
     for(let i = 0;i < len;i++){
@@ -218,8 +206,8 @@ var aparadeway = {
       }
     }
     return arr
-  },
-  indexOf:function(array,value,fromIndex = 0){
+  }
+  function indexOf(array,value,fromIndex = 0){
     let sizeOfArray = array.length;
     if(fromIndex < 0){
       fromIndex = 0;
@@ -230,51 +218,49 @@ var aparadeway = {
       }
     }
     return -1
-  },
-  flatten:function(array){
-    return this.concat([],...array);
-  },
-  flattenDeep:function(array){
+  }
+  function flatten(array){
+    return concat([],...array);
+  }
+  function flattenDeep(array){
     let res = [];
     for(let i = 0;i < array.length;i++){
       if(Array.isArray(array[i])){
-        res = this.concat(res,this.flattenDeep(array[i]));
+        res = concat(res,flattenDeep(array[i]));
       }
       else{
-        res = this.concat(res,array[i]);
+        res = concat(res,array[i]);
       }
     }
     return res
-  },
-  difference:function(array,...values){
-    let that = this;
-    return array.filter(function(item,index,arr){
-      return that.indexOf(that.concat([],...values),item) == -1
+  }
+  function difference(array,...values){
+    return array.filter(function (item,index,arr){
+      return indexOf(concat([],...values),item) == -1
     })
-  },
-  differenceBy:function(array,...values){
+  }
+  function differenceBy(array,...values){
     if(Array.isArray(values[values.length - 1])){
-      return this.difference(array,...values);
+      return difference(array,...values);
     }
-    let iteratee = this.iteratee(values[values.length - 1])
+    let iteratee = iteratee(values[values.length - 1])
     values.length -= 1;
-    let that = this;
-    return array.filter(function(item,index){
-      if(that.concat([],...values).map(function(it,idx){
+    return array.filter(function (item,index){
+      if(concat([],...values).map(function (it,idx){
         return iteratee(it);
       }).indexOf(iteratee(item)) == -1)
       return item
     })
-  },
-  differenceWith:function(array,...values){
+  }
+  function differenceWith(array,...values){
     if(typeof values[values.length - 1] !== 'function'){
-      return this.difference(array,...values);
+      return difference(array,...values);
     }
     else{
       let comparator = values[values.length - 1];
       values.length -= 1;
-      values = this.flatten(values);
-      return array.filter(function(item,index){
+      values = flatten(values);
+      return array.filter(function (item,index){
         for(let i = 0;i < values.length;i++){
           if(comparator(item,values[i])){
             return false
@@ -283,20 +269,20 @@ var aparadeway = {
         return true
       })
     }
-  },
-  drop:function(array,number = 1){
+  }
+  function drop(array,number = 1){
     return array.slice(number);
-  },
-  dropRight:function(array,number = 1){
+  }
+  function dropRight(array,number = 1){
     if(number > array.length){
       number = array.length;
     }
     array.length -= number;
     return array
-  },
-  dropRightWhile:function(array,predicate = this.identity){
+  }
+  function dropRightWhile(array,predicate = identity){
     if(!(typeof predicate == 'function')){
-      predicate = this.iteratee(predicate);
+      predicate = iteratee(predicate);
     }
     for(let i = array.length - 1;i >= 0;i--){
       if(predicate(array[i],i,array) === false){
@@ -305,5 +291,265 @@ var aparadeway = {
       }
     }
   }
-}
+
+  return {
+    chunk: chunk,
+    compact: compact, 
+    difference: difference,
+    drop : drop, 
+    dropRight: dropRight,
+    unary : unary,
+    negate : negate,
+    range: range,
+    rangeRight: rangeRight,
+    sum : sum,
+    keys : keys,
+    uniq : uniq,
+    isEqual : isEqual,
+    map : map,
+    forEachRight: forEachRight,
+    forEach: forEach,
+    differenceBy: differenceBy,
+    dropWhile : dropWhile,
+    dropRightWhile : dropRightWhile,
+    identity: identity,
+    toPath: toPath,
+    get : get,
+    property : property,
+    sumBy : sumBy,
+    isMatch : isMatch,
+    toArray : toArray,
+    flip : flip,
+    fromPairs : fromPairs,
+    toPairs : toPairs,
+    matches : matches,
+    matchesProperty : matchesProperty,
+    iteratee : iteratee,
+    ary : ary,
+    fill : fill,
+    findLastIndex : findLastIndex,
+    findIndex : findIndex,
+    flatten : flatten,
+    flattenDepth: flattenDepth,
+    flattenDeep: flattenDeep,
+    reduce : reduce,
+    head : head,
+    indexOf : indexOf,
+    lastIndexOf : lastIndexOf,
+    initial : initial,
+    intersection: intersection,
+    join : join,
+    last : last,
+    nth : nth,
+    intersectionBy : intersectionBy,
+    intersectionWith : intersectionWith,
+    filter : filter,
+    bind : bind,
+    differenceWith : differenceWith,
+    pull : pull,
+    pullAll : pullAll,
+    pullAllBy :pullAllBy,
+    pullAllWith : pullAllWith,
+    reverse : reverse,
+    tail : tail,
+    take : take,
+    takeWhile : takeWhile,
+    takeRight : takeRight,
+    takeRightWhile : takeRightWhile,
+    union : union,
+    unionBy : unionBy,
+    unionWith : unionWith,
+    uniqBy : uniqBy,
+    uniqWith : uniqWith,
+    spread : spread,
+    zip : zip,
+    unzip : unzip,
+    unzipWith : unzipWith,
+    add : add,
+    without : without,
+    xor : xor,
+    concat : concat,
+    xorBy : xorBy,
+    xorWith : xorWith,
+    sortedIndex : sortedIndex,
+    sortedIndexOf : sortedIndexOf,
+    sortedIndexBy : sortedIndexBy,
+    sortedLastIndex : sortedLastIndex,
+    sortedLastIndexOf : sortedLastIndexOf,
+    sortedLastIndexBy : sortedLastIndexBy,
+    sortedUniq : sortedUniq,
+    sortedUniqBy : sortedUniqBy,
+    zipObject : zipObject,
+    zipObjectDeep : zipObjectDeep,
+    zipWith : zipWith,
+    countBy : countBy,
+    every : every,
+    findLast : findLast,
+    find : find,
+    flatMap : flatMap,
+    flatMapDeep : flatMapDeep,
+    flatMapDepth : flatMapDepth,
+    groupBy : groupBy,
+    includes : includes,
+    invoke : invoke,
+    invokeMap : invokeMap,
+    keyBy : keyBy,
+    partition : partition,
+    reject : reject,
+    sortBy : sortBy,
+    reduceRight : reduceRight,
+    orderBy : orderBy,
+    sample : sample,
+    sampleSize : sampleSize,
+    shuffle : shuffle,
+    some : some,
+    castArray : castArray,
+    conforms : conforms,
+    conformsTo : conformsTo,
+    size : size,
+    eq : eq,
+    gt : gt,
+    gte : gte,
+    isArguments : isArguments,
+    isArray : isArray,
+    isArrayBuffer : isArrayBuffer, 
+    isArrayLike : isArrayLike,
+    isArrayLikeObject: isArrayLikeObject,
+    isBoolean : isBoolean,
+    isDate : isDate,
+    isElement : isElement,
+    isEmpty : isEmpty,
+    isFinite : isFinite,
+    isFunction : isFunction,
+    isInteger : isInteger,
+    isLength : isLength,
+    isMap : isMap,
+    isSet : isSet,
+    isError : isError, 
+    isNaN : isNaN,
+    isNative : isNative,
+    isNil : isNil,
+    isNull : isNull,
+    isNumber : isNumber,
+    isObject : isObject,
+    isObjectLike : isObjectLike,
+    isPlainObject : isPlainObject,
+    isRegExp : isRegExp,
+    isSafeInteger : isSafeInteger,
+    typeOf : typeOf,
+    isString : isString,
+    isSymbol : isSymbol,
+    isTypedArray : isTypedArray,
+    isUndefined : isUndefined,
+    isWeakSet : isWeakSet,
+    isWeakMap : isWeakMap,
+    lt : lt,
+    lte : lte,
+    toFinite : toFinite,
+    toInteger : toInteger,
+    toLength : toLength,
+    toNumber : toNumber,
+    assign : assign,
+    toSafeInteger : toSafeInteger,
+    ceil : ceil,
+    divide : divide,
+    floor : floor,
+    multiply : multiply,
+    random : random,
+    inRange : inRange,
+    clamp : clamp,
+    subtract : subtract,
+    round : round,
+    max : max,
+    maxBy : maxBy,
+    mean : mean,
+    meanBy : meanBy,
+    min : min,
+    minBy : minBy,
+    isMatchWith : isMatchWith,
+    assignIn : assignIn,
+    at : at,
+    defaults : defaults,
+    defaultsDeep : defaultsDeep,
+    cloneDeep : cloneDeep,
+    findLastKey : findLastKey,
+    findKey : findKey,
+    forIn : forIn,
+    keysIn : keysIn,
+    forInRight : forInRight,
+    forOwnRight : forOwnRight,
+    forOwn : forOwn,
+    functions : functions,
+    constant : constant,
+    times : times,
+    functionsIn : functionsIn,
+    has : has,
+    create : create,
+    hasIn : hasIn,
+    invert : invert,
+    invertBy : invertBy,
+    mapValues : mapValues,
+    mapKeys : mapKeys,
+    merge : merge,
+    mergeWith : mergeWith,
+    pickBy : pickBy,
+    pick : pick,
+    omitBy : omitBy,
+    omit : omit,
+    result : result,
+    set : set,
+    setWith : setWith,
+    toPairsIn : toPairsIn,
+    transform : transform,
+    unset : unset,
+    updateWith : updateWith,
+    update : update,
+    values : values,
+    valuesIn : valuesIn,
+    capitalize : capitalize,
+    camelCase : camelCase,
+    endsWith : endsWith,
+    replace : replace,
+    escape : escape,
+    escapeRegExp : escapeRegExp,
+    kebabCase : kebabCase,
+    lowerCase : lowerCase,
+    lowerFirst : lowerFirst,
+    pad : pad,
+    padStart : padStart,
+    padEnd : padEnd,
+    parseInt : parseInt,
+    repeat : repeat,
+    snakeCase : snakeCase,
+    split : split,
+    startCase : startCase,
+    startsWith : startsWith,
+    toLower : toLower,
+    toUpper : toUpper,
+    trim : trim,
+    trimEnd : trimEnd,
+    trimStart : trimStart,
+    // truncate : truncate,
+    unescape : unescape,
+    upperCase: upperCase,
+    upperFirst : upperFirst,
+    defaultTo : defaultTo,
+    pullAt : pullAt,
+    once : once,
+    words : words,
+    uniqueId : uniqueId,
+    delay : delay,
+    method : method,
+    methodOf : methodOf,
+    nthArg : nthArg,
+    propertyOf : propertyOf,
+    isEqualWith : isEqualWith,
+    curry : curry,
+    flow : flow,
+    parseJson : parseJson,
+    stringifyJson : stringifyJson,
+    truncate : truncate,
+
+  }
+}()
 
