@@ -137,12 +137,12 @@ aparadeway = function(){
     return res
   }
   function reduce(collection,ite = identity,accumulator){
-    let keys = keys(collection);
+    let key = key(collection);
     let i = accumulator?0:1;
-    accumulator = !accumulator?collection[keys[0]]:accumulator;
-    let res = accumulator?accumulator:collection[keys[0]];
-    for(i;i < keys.length;i++){
-      res = ite(res,collection[keys[i]],keys[i],collection);
+    accumulator = !accumulator?collection[key[0]]:accumulator;
+    let res = accumulator?accumulator:collection[key[0]];
+    for(i;i < key.length;i++){
+      res = ite(res,collection[key[i]],key[i],collection);
     }
     return res
   }
@@ -152,10 +152,10 @@ aparadeway = function(){
     }
     predicate = iteratee(predicate);
     let arr = [];
-    let keys = keys(collection);
-    for(let i = 0;i < keys.length;i++){
-      if(predicate(collection[keys[i]],keys[i],collection)){
-        arr.push(collection[keys[i]]);
+    let key = keys(collection);
+    for(let i = 0;i < key.length;i++){
+      if(predicate(collection[key[i]],key[i],collection)){
+        arr.push(collection[key[i]]);
       }
     }
     return arr
