@@ -249,12 +249,12 @@ aparadeway = function(){
     if(Array.isArray(values[values.length - 1])){
       return difference(array,...values);
     }
-    let iteratee = iteratee(values[values.length - 1])
+    let ite = iteratee(values[values.length - 1]);
     values.length -= 1;
     return array.filter(function (item,index){
       if(concat([],...values).map(function (it,idx){
-        return iteratee(it);
-      }).indexOf(iteratee(item)) == -1)
+        return ite(it);
+      }).indexOf(ite(item)) == -1)
       return item
     })
   }
@@ -409,6 +409,7 @@ aparadeway = function(){
     findIndex:findIndex,
     chunk: chunk,
     compact: compact, 
+    fill:fill,
     difference: difference,
     drop : drop, 
     dropRight: dropRight,
