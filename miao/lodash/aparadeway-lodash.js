@@ -119,30 +119,30 @@ aparadeway = function(){
       return property(func)
     }
   }
-  function map(collection,iteratee = identity){
-    iteratee = iteratee(iteratee);
+  function map(collection,ite = identity){
+    ite = iteratee(ite);
     let res = [];
     if(Array.isArray(collection)){
       for(let i = 0;i < collection.length;i++){
-        res.push(iteratee(collection[i],i,collection));
+        res.push(ite(collection[i],i,collection));
       }
     }
     else{
       for(let i in collection){
         if(collection.hasOwnProperty(i)){
-          res.push(iteratee(collection[i],i,collection));
+          res.push(ite(collection[i],i,collection));
         }
       }
     }
     return res
   }
-  function reduce(collection,iteratee = identity,accumulator){
+  function reduce(collection,ite = identity,accumulator){
     let keys = keys(collection);
     let i = accumulator?0:1;
     accumulator = !accumulator?collection[keys[0]]:accumulator;
     let res = accumulator?accumulator:collection[keys[0]];
     for(i;i < keys.length;i++){
-      res = iteratee(res,collection[keys[i]],keys[i],collection);
+      res = ite(res,collection[keys[i]],keys[i],collection);
     }
     return res
   }
@@ -358,7 +358,7 @@ aparadeway = function(){
     }
     return array
   }
-  function intersection(arrays){
+  function intersection(...arrays){
     if(!arrays || arrays.length == 0){
       return []
     }
@@ -388,8 +388,32 @@ aparadeway = function(){
       },false)
     })
   }
+  function intersectionWith(...arrays){
+    if(!arrays || arrays.length < 2 || (typeof arrays[arrays.length - 1] != 'function')){
+      return []
+    }
+    let it = identity;
+    if(!isArray(arrays[arrays.length - 1])){
+      ite = iteratee(arrays.pop());
+    }
+    let comp = arrays.shift();
+    return comp.filter(function(item,index){
+      return arrays.reduce(function(res,it,idx){
+        return res = res || it.reduce(function(r,i,indx){
+          return r = r || ite(item,i)
+        },false)
+      },false)
+    })
+  }
+  function join(array,separator = ','){
+    let str = array.reduce(function(res,item,idx){
+      return res += separator + item
+    })
+    str.length -= 1;
+    return str
+  }
   return {
-    get size(){
+    get fnSize(){
       let size = 0;
       for(let i in this){
         if(this.hasOwnProperty(i)){
@@ -398,6 +422,8 @@ aparadeway = function(){
       }
       return size - 1
     },
+    join:join,
+    intersectionWith:intersectionWith,
     intersectionBy:intersectionBy,
     intersection:intersection,
     initial:initial,
