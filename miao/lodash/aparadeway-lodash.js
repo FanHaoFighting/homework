@@ -223,16 +223,22 @@ aparadeway = function(){
     return concat([],...array);
   }
   function flattenDeep(array){
-    let res = [];
-    for(let i = 0;i < array.length;i++){
+    return array.reduce(function(res,item,i,arr){
       if(Array.isArray(array[i])){
         res = concat(res,flattenDeep(array[i]));
       }
       else{
         res = concat(res,array[i]);
       }
+      return res
+    },[])
+  }
+  function flattenDepth(array,depth = 1){
+    let i = 0;
+    while(depth--){
+      array = flatten(array);
     }
-    return res
+    return array
   }
   function difference(array,...values){
     return array.filter(function (item,index,arr){
@@ -301,147 +307,133 @@ aparadeway = function(){
       }
     }
   }
-
+  function fill(array,value,start = 0,end = array.length){
+    for(let i = start;i < end;i++){
+      array[i] = value;
+    }
+    return array
+  }
+  function findIndex(array,predicate = identity){
+    if(predicate){
+      predicate = iteratee(predicate);
+    }
+    for(let i = 0;i < array.length;i++){
+      if(predicate(array[i])){
+        return i
+      }
+    }
+    return -1
+  }
+  function findLastIndex(array,predicate = identity){
+    if(predicate){
+      predicate = iteratee(predicate);
+    }
+    for(let i = array.length - 1;i >= 0;i--){
+      if(predicate(array[i])){
+        return i
+      }
+    }
+    return -1
+  }
+  function fromPairs(pairs){
+    return pairs.reduce(function(res,item,i){
+      res[item[0]] = item[1];
+      return res
+    },{})
+  }
+  function head(array){
+    return array[0]
+  }
+  function indexOf(array,value,fromIndex = 0){
+    for(let i = fromIndex;i < array.length;i++){
+      if(array[i] === value){
+        return i
+      }
+    }
+    return -1
+  }
+  function initial(array = []){
+    if(array.length > 0){
+      array.length -= 1;
+    }
+    return array
+  }
+  function intersection(arrays){
+    if(!arrays || arrays.length == 0){
+      return []
+    }
+    let comp = arrays.shift();
+    return comp.filter(function(item,index){
+      return arrays.reduce(function(res,it,idx){
+        return res = res || it.reduce(function(r,i,indx){
+          return r = r || isEqual(item,i)
+        },false)
+      },false)
+    })
+  }
+  function intersectionBy(...arrays){
+    if(!arrays || arrays.length == 0){
+      return []
+    }
+    let it = identity;
+    if(!isArray(arrays[arrays.length - 1])){
+      ite = iteratee(arrays.pop());
+    }
+    let comp = arrays.shift();
+    return comp.filter(function(item,index){
+      return arrays.reduce(function(res,it,idx){
+        return res = res || it.reduce(function(r,i,indx){
+          return r = r || isEqual(ite(item),ite(i))
+        },false)
+      },false)
+    })
+  }
   return {
+    get size(){
+      let size = 0;
+      for(let i in this){
+        if(this.hasOwnProperty(i)){
+          size++;
+        }
+      }
+      return size - 1
+    },
+    intersectionBy:intersectionBy,
+    intersection:intersection,
+    initial:initial,
+    indexOf:indexOf,
+    head:head,
+    fromPairs:fromPairs,
+    flattenDepth:flattenDepth,
+    findLastIndex:findLastIndex,
+    findIndex:findIndex,
     chunk: chunk,
     compact: compact, 
     difference: difference,
     drop : drop, 
     dropRight: dropRight,
     slice:slice,
-    //unary : unary,
-    //negate : negate,
-    //range: range,
-    //rangeRight: rangeRight,
-    //sum : sum,
     keys : keys,
-    //uniq : uniq,
     isEqual : isEqual,
     map : map,
-    //forEachRight: forEachRight,
-    //forEach: forEach,
     differenceBy: differenceBy,
     dropWhile : dropWhile,
     dropRightWhile : dropRightWhile,
     identity: identity,
-    //toPath: toPath,
     get : get,
     property : property,
-    //sumBy : sumBy,
     isMatch : isMatch,
-    //toArray : toArray,
-    //flip : flip,
-    //fromPairs : fromPairs,
-    //toPairs : toPairs,
     matches : matches,
     matchesProperty : matchesProperty,
     iteratee : iteratee,
-    //ary : ary,
-    //fill : fill,
-    //findLastIndex : findLastIndex,
-    //findIndex : findIndex,
     flatten : flatten,
-    //flattenDepth: flattenDepth,
     flattenDeep: flattenDeep,
     reduce : reduce,
-    //head : head,
     indexOf : indexOf,
-    //lastIndexOf : lastIndexOf,
-    //initial : initial,
-    //intersection: intersection,
-    //join : join,
-    //last : last,
-    //nth : nth,
-    // intersectionBy : intersectionBy,
-    // intersectionWith : intersectionWith,
     filter : filter,
-    // bind : bind,
     differenceWith : differenceWith,
-    // pull : pull,
-    // pullAll : pullAll,
-    // pullAllBy :pullAllBy,
-    // pullAllWith : pullAllWith,
-    // reverse : reverse,
-    // tail : tail,
-    // take : take,
-    // takeWhile : takeWhile,
-    // takeRight : takeRight,
-    // takeRightWhile : takeRightWhile,
-    // union : union,
-    // unionBy : unionBy,
-    // unionWith : unionWith,
-    // uniqBy : uniqBy,
-    // uniqWith : uniqWith,
-    // spread : spread,
-    // zip : zip,
-    // unzip : unzip,
-    // unzipWith : unzipWith,
-    // add : add,
-    // without : without,
-    // xor : xor,
     concat : concat,
-    // xorBy : xorBy,
-    // xorWith : xorWith,
-    // sortedIndex : sortedIndex,
-    // sortedIndexOf : sortedIndexOf,
-    // sortedIndexBy : sortedIndexBy,
-    // sortedLastIndex : sortedLastIndex,
-    // sortedLastIndexOf : sortedLastIndexOf,
-    // sortedLastIndexBy : sortedLastIndexBy,
-    // sortedUniq : sortedUniq,
-    // sortedUniqBy : sortedUniqBy,
-    // zipObject : zipObject,
-    // zipObjectDeep : zipObjectDeep,
-    // zipWith : zipWith,
-    // countBy : countBy,
-    // every : every,
-    // findLast : findLast,
-    // find : find,
-    // flatMap : flatMap,
-    // flatMapDeep : flatMapDeep,
-    // flatMapDepth : flatMapDepth,
-    // groupBy : groupBy,
-    // includes : includes,
-    // invoke : invoke,
-    // invokeMap : invokeMap,
-    // keyBy : keyBy,
-    // partition : partition,
-    // reject : reject,
-    // sortBy : sortBy,
-    // reduceRight : reduceRight,
-    // orderBy : orderBy,
-    // sample : sample,
-    // sampleSize : sampleSize,
-    // shuffle : shuffle,
-    // some : some,
-    // castArray : castArray,
-    // conforms : conforms,
-    // conformsTo : conformsTo,
-    // size : size,
-    // eq : eq,
-    // gt : gt,
-    // gte : gte,
-    // isArguments : isArguments,
     isArray : isArray,
-    // isArrayBuffer : isArrayBuffer, 
-    // isArrayLike : isArrayLike,
-    // isArrayLikeObject: isArrayLikeObject,
-    // isBoolean : isBoolean,
-    // isDate : isDate,
-    // isElement : isElement,
-    // isEmpty : isEmpty,
-    // isFinite : isFinite,
-    // isFunction : isFunction,
-    // isInteger : isInteger,
-    // isLength : isLength,
-    // isMap : isMap,
-    // isSet : isSet,
-    // isError : isError, 
-    // isNaN : isNaN,
-    // isNative : isNative,
-    // isNil : isNil,
-    // isNull : isNull,
-    // isNumber : isNumber,
     isObject : isObject
   }
 }()
