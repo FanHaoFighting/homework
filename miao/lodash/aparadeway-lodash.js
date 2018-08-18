@@ -137,7 +137,7 @@ aparadeway = function(){
     return res
   }
   function reduce(collection,ite = identity,accumulator){
-    let key = key(collection);
+    let key = keys(collection);
     let i = accumulator?0:1;
     accumulator = !accumulator?collection[key[0]]:accumulator;
     let res = accumulator?accumulator:collection[key[0]];
@@ -407,10 +407,16 @@ aparadeway = function(){
   }
   function join(array,separator = ','){
     let str = array.reduce(function(res,item,idx){
-      return res += separator + item
+      return res += '' + separator + item
     })
     str.length -= 1;
     return str
+  }
+  function last(array){
+    if(!array || array.length == 0){
+      return null
+    }
+    return array[array.length - 1]
   }
   return {
     get fnSize(){
@@ -422,6 +428,7 @@ aparadeway = function(){
       }
       return size - 1
     },
+    last:last,
     join:join,
     intersectionWith:intersectionWith,
     intersectionBy:intersectionBy,
