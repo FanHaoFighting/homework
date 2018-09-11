@@ -1,4 +1,15 @@
 aparadeway = function(){
+  //自定义函数
+  var custom = {};
+  // 压缩稀疏数组，返回原数组
+  custom.condenseArray = function(arr){
+    for(let i = arr.length - 1;i >= 0;i--){
+      if(arr[i] === null){
+        arr.splice(i,1);
+      }
+    }
+    return arr
+  }
   var exports = {};
   exports.identity = function(value){
     return value
@@ -34,7 +45,7 @@ aparadeway = function(){
         return false
       }
       for(let i = 0;i < lengthOfValues;i++){
-        if(value[values[i]] === value[values[i]] && value[values[i]] !== other[values[i]] && (!isEqual(value[values[i]],other[values[i]]))){
+        if(value[values[i]] === value[values[i]] && value[values[i]] !== other[values[i]] && (!exports.isEqual(value[values[i]],other[values[i]]))){
           return false
         }
       }
@@ -452,6 +463,26 @@ aparadeway = function(){
         num++;
       }
     }
+  }
+  exports.pullAll = function(array,values){
+    return exports.pull(array,...values)
+  }
+  exports.pullAllBy = function(array,...values){
+    let iteratee = exports.identity;
+    if(!Array.isArray(values[values.length - 1])){
+      iteratee = exports.iteratee(values[values.length - 1]);
+      values.length -= 1;
+    }
+    values = exports.flatten(values);
+    array.forEach(function(item,index){
+      if(values.some(function(currentItem){
+        return exports.isEqual(iteratee(item),iteratee(currentItem))
+      })){
+        array[index] = null;
+      }
+    })
+    custom.condenseArray(array);
+    return array
   }
   exports.nth = function(array,n = 0){
     return n >= 0?array[n]:array[array.length + n]
