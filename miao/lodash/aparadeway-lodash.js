@@ -245,10 +245,10 @@ aparadeway = function(){
   exports.flattenDeep = function(array){
     return array.reduce(function(res,item,i,arr){
       if(Array.isArray(array[i])){
-        res = concat(res,flattenDeep(array[i]));
+        res = exports.concat(res,exports.flattenDeep(array[i]));
       }
       else{
-        res = concat(res,array[i]);
+        res = exports.concat(res,array[i]);
       }
       return res
     },[])
@@ -439,6 +439,9 @@ aparadeway = function(){
     return array[array.length - 1]
   }
   exports.lastIndexOf = function(array,value,fromIndex = array.length - 1){
+    if(fromIndex < 0){
+      return -1
+    }
     for(let i = fromIndex;i >= 0;i--){
       if(array[i] === value){
         return i
@@ -501,17 +504,27 @@ aparadeway = function(){
     return array
   }
   exports.sortedIndex = function(array,value){
-    return sortedIndexBy(array,value)
+    return exports.sortedIndexBy(array,value)
   }
   exports.sortedIndexBy = function(array,value,iteratee = exports.identity){
     if(iteratee){
       iteratee = exports.iteratee(iteratee);
     }
-    for(let i = 0;i < array.length;i++){
-      if(iteratee(array[i]) >= iteratee(value)){
-        return i
+    let left = 0;
+    let right = array.length - 1;
+    let mid = parseInt((right + left) / 2);
+    while(right - left > 1){
+      mid = parseInt((right + left) / 2);
+      if(iteratee(array[left]) == iteratee(value)){
+        return left
       }
-    }
+      if(iteratee(array[mid]) >= iteratee(value)){
+        right = mid;
+      }
+      else{
+        left = mid;
+      }
+    } 
     return array.length
   }
   exports.sortedIndexOf = function(array,value){
@@ -523,18 +536,8 @@ aparadeway = function(){
     return -1
   }
 
-  exports.forOwn = function(object,ite = exports.identity){
-    let it = exports.iteratee(ite);
-    let key = exports.keys(object);
-    for(let i = 0;i < key.length;i++){
-      if(it(object[key[i]]) === false){
-        continue;
-      }
-      else{
-        object[key[i]] = it(object[key[i]],key[i],object);
-      }
-    }
-    return object
+  exports.forOwn = function(object,iteratee = exports.identity){
+    return object.forEach(iteratee)
   }
   // 计算数目
   Object.defineProperty(exports,'countSize',{
