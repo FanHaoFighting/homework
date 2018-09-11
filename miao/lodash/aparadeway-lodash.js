@@ -1,16 +1,18 @@
 aparadeway = function(){
-
-  function identity(value){
+  var exports = {};
+  exports.identity = function(value){
     return value
   }
 
-  function keys(object){
+  exports.keys = function(object){
     return Object.keys(object)
   }
-  function isObject(value){
+
+  exports.isObject = function(value){
     return (value instanceof Object)
   }
-  function isEqual(value,other){
+
+  exports.isEqual = function(value,other){
     if(value === other || (value !== value && other !== other)){
       return true
     }
@@ -18,7 +20,7 @@ aparadeway = function(){
       return false
     }
     //判断引用类型
-    if(isObject(value) === true && isObject(other) === true){
+    if(exports.isObject(value) === true && exports.isObject(other) === true){
       let values = keys(value);
       let others = keys(other);
       let lengthOfValues = values.length;
@@ -36,14 +38,14 @@ aparadeway = function(){
       return false
     }
   }
-  function isMatch(object,source){
-    if(isEqual(object,source)){
+  exports.isMatch = function(object,source){
+    if(exports.isEqual(object,source)){
       return true
     }
-    let sources = keys(source);
+    let sources = exports.keys(source);
     let sizeOfSources = sources.length;
     for(let i = 0;i < sizeOfSources;i++){
-      if(isEqual(object[sources[i]],source[sources[i]])){
+      if(exports.isEqual(object[sources[i]],source[sources[i]])){
         continue;
       }
       else if(object[sources[i]] == undefined || object[sources[i]] !== source[sources[i]]){
@@ -52,19 +54,19 @@ aparadeway = function(){
     }
     return true
   }
-  function matches(source){
+  exports.matches = function(source){
     return function (object){
-      return isMatch(object,source);
+      return exports.isMatch(object,source);
     }
   }
-  function get(object,path,defaultValue){
+  exports.get = function(object,path,defaultValue){
     let arr;
     if(typeof path === 'string'){
       let reg = /\b\w+\b/g;
       arr = path.match(reg);
     }
     else if(Array.isArray(path)){
-      arr = flattenDeep(path);
+      arr = exports.flattenDeep(path);
     }
     let temp = object;
     for(let i = 0;i < arr.length;i++){
@@ -77,23 +79,23 @@ aparadeway = function(){
     }
     return temp
   }
-  function property(path){
+  exports.property = function(path){
     return function (object){
       if(object == undefined){
         return
       }
       else{
-        return get(object,path)
+        return exports.get(object,path)
       }
     }
   }
-  function matchesProperty(path,srcValue){
+  exports.matchesProperty = function(path,srcValue){
     return function (object){
       if(object == undefined || object[path] == undefined){
         return false
       }
       else{
-        if(isEqual(object[path],srcValue)){
+        if(exports.isEqual(object[path],srcValue)){
           return true
         }
         else{
@@ -102,25 +104,25 @@ aparadeway = function(){
       }
     }
   }
-  function isArray(value){
+  exports.sArray = function(value){
     return (Object.prototype.toString.call(value) === '[object Array]')
   }
-  function iteratee(func = identity){
+  exports.iteratee = function(func = identity){
     if(Array.isArray(func)){
-      return matchesProperty(func[0],func[1])
+      return exports.matchesProperty(func[0],func[1])
     }
     else if(typeof func === 'function'){
       return func
     }
     else if(func instanceof Object){
-      return matches(func)
+      return exports.matches(func)
     }
     else if(typeof func === 'string'){
-      return property(func)
+      return exports.property(func)
     }
   }
-  function map(collection,ite = identity){
-    ite = iteratee(ite);
+  exports.map = function(collection,ite = identity){
+    ite = exports.iteratee(ite);
     let res = [];
     if(Array.isArray(collection)){
       for(let i = 0;i < collection.length;i++){
@@ -136,8 +138,8 @@ aparadeway = function(){
     }
     return res
   }
-  function reduce(collection,ite = identity,accumulator){
-    let key = keys(collection);
+  exports.reduce = function(collection,ite = identity,accumulator){
+    let key = exports.keys(collection);
     let i = accumulator?0:1;
     accumulator = !accumulator?collection[key[0]]:accumulator;
     let res = accumulator?accumulator:collection[key[0]];
@@ -146,11 +148,11 @@ aparadeway = function(){
     }
     return res
   }
-  function filter(collection,predicate){
+  exports.filter = function(collection,predicate){
     if(!predicate){
       return collection
     }
-    predicate = iteratee(predicate);
+    predicate = exports.iteratee(predicate);
     let arr = [];
     let key = keys(collection);
     for(let i = 0;i < key.length;i++){
@@ -160,7 +162,7 @@ aparadeway = function(){
     }
     return arr
   }
-  function concat(array,...values){
+  exports.concat = function(array,...values){
     let arr = [];
     let sizeOfArray = array.length;
     let sizeOfValues = values.length;
@@ -168,7 +170,7 @@ aparadeway = function(){
       arr.push(array[i]);
     }
     for(let i = 0;i < sizeOfValues;i++){
-      if(isArray(values[i])){
+      if(exports.isArray(values[i])){
         let sizeOfValue = values[i].length;
         for(let j = 0;j < sizeOfValue;j++){
           arr.push(values[i][j]);
@@ -180,7 +182,7 @@ aparadeway = function(){
     }
     return arr
   }
-  function slice(array,start = 0,end = array.length){
+  exports.slice = function(array,start = 0,end = array.length){
     let arr = [];
     for(let i = start;i < end;i++){
       if(array[i]){
@@ -189,15 +191,15 @@ aparadeway = function(){
     }
     return arr
   }
-  function chunk(array,size = 1){
+  exports.chunk = function(array,size = 1){
     let arr = [];
     let len = array.length;
     for(let i = 0;i < len;i += size){
-      arr.push(slice(array,i,i + size));
+      arr.push(exports.slice(array,i,i + size));
     }
     return arr
   }
-  function compact(array){
+  exports.compact = function(array){
     let arr = [];
     let len = array.length;
     for(let i = 0;i < len;i++){
@@ -207,7 +209,7 @@ aparadeway = function(){
     }
     return arr
   }
-  function indexOf(array,value,fromIndex = 0){
+  exports.indexOf = function(array,value,fromIndex = 0){
     let sizeOfArray = array.length;
     if(fromIndex < 0){
       fromIndex = 0;
@@ -219,10 +221,10 @@ aparadeway = function(){
     }
     return -1
   }
-  function flatten(array){
-    return concat([],...array);
+  exports.flatten = function(array){
+    return exports.concat([],...array);
   }
-  function flattenDeep(array){
+  exports.flattenDeep = function(array){
     return array.reduce(function(res,item,i,arr){
       if(Array.isArray(array[i])){
         res = concat(res,flattenDeep(array[i]));
@@ -233,39 +235,39 @@ aparadeway = function(){
       return res
     },[])
   }
-  function flattenDepth(array,depth = 1){
+  exports.flattenDepth = function(array,depth = 1){
     let i = 0;
     while(depth--){
-      array = flatten(array);
+      array = exports.flatten(array);
     }
     return array
   }
-  function difference(array,...values){
+  exports.difference = function(array,...values){
     return array.filter(function (item,index,arr){
-      return indexOf(concat([],...values),item) == -1
+      return exports.indexOf(exports.concat([],...values),item) == -1
     })
   }
-  function differenceBy(array,...values){
+  exports.differenceBy = function(array,...values){
     if(Array.isArray(values[values.length - 1])){
-      return difference(array,...values);
+      return exports.difference(array,...values);
     }
-    let ite = iteratee(values[values.length - 1]);
+    let ite = exports.iteratee(values[values.length - 1]);
     values.length -= 1;
     return array.filter(function (item,index){
-      if(concat([],...values).map(function (it,idx){
+      if(exports.concat([],...values).map(function (it,idx){
         return ite(it);
       }).indexOf(ite(item)) == -1)
       return item
     })
   }
-  function differenceWith(array,...values){
+  exports.differenceWith = function(array,...values){
     if(typeof values[values.length - 1] !== 'function'){
-      return difference(array,...values);
+      return exports.difference(array,...values);
     }
     else{
       let comparator = values[values.length - 1];
       values.length -= 1;
-      values = flatten(values);
+      values = exports.flatten(values);
       return array.filter(function (item,index){
         for(let i = 0;i < values.length;i++){
           if(comparator(item,values[i])){
@@ -276,19 +278,19 @@ aparadeway = function(){
       })
     }
   }
-  function drop(array,number = 1){
+  exports.drop = function(array,number = 1){
     return array.slice(number);
   }
-  function dropRight(array,number = 1){
+  exports.dropRight = function(array,number = 1){
     if(number > array.length){
       number = array.length;
     }
     array.length -= number;
     return array
   }
-  function dropRightWhile(array,predicate = identity){
+  exports.dropRightWhile = function(array,predicate = identity){
     if(!(typeof predicate == 'function')){
-      predicate = iteratee(predicate);
+      predicate = exports.iteratee(predicate);
     }
     for(let i = array.length - 1;i >= 0;i--){
       if(predicate(array[i],i,array) === false){
@@ -297,9 +299,9 @@ aparadeway = function(){
       }
     }
   }
-  function dropWhile(array,predicate = identity){
+  exports.dropWhile = function(array,predicate = identity){
     if(!(typeof predicate == 'function')){
-      predicate = iteratee(predicate);
+      predicate = exports.iteratee(predicate);
     }
     for(let i = 0;i < array.length;i++){
       if(predicate(array[i],i,array) === false){
@@ -307,15 +309,15 @@ aparadeway = function(){
       }
     }
   }
-  function fill(array,value,start = 0,end = array.length){
+  exports.fill = function(array,value,start = 0,end = array.length){
     for(let i = start;i < end;i++){
       array[i] = value;
     }
     return array
   }
-  function findIndex(array,predicate = identity){
+  exports.findIndex = function(array,predicate = identity){
     if(predicate){
-      predicate = iteratee(predicate);
+      predicate = exports.iteratee(predicate);
     }
     for(let i = 0;i < array.length;i++){
       if(predicate(array[i])){
@@ -324,9 +326,9 @@ aparadeway = function(){
     }
     return -1
   }
-  function findLastIndex(array,predicate = identity){
+  exports.findLastIndex = function(array,predicate = identity){
     if(predicate){
-      predicate = iteratee(predicate);
+      predicate = exports.iteratee(predicate);
     }
     for(let i = array.length - 1;i >= 0;i--){
       if(predicate(array[i])){
@@ -335,16 +337,16 @@ aparadeway = function(){
     }
     return -1
   }
-  function fromPairs(pairs){
+  exports.fromPairs = function(pairs){
     return pairs.reduce(function(res,item,i){
       res[item[0]] = item[1];
       return res
     },{})
   }
-  function head(array){
+  exports.head = function(array){
     return array[0]
   }
-  function indexOf(array,value,fromIndex = 0){
+  exports.indexOf = function(array,value,fromIndex = 0){
     for(let i = fromIndex;i < array.length;i++){
       if(array[i] === value){
         return i
@@ -352,13 +354,13 @@ aparadeway = function(){
     }
     return -1
   }
-  function initial(array = []){
+  exports.initial = function(array = []){
     if(array.length > 0){
       array.length -= 1;
     }
     return array
   }
-  function intersection(...arrays){
+  exports.intersection = function(...arrays){
     if(!arrays || arrays.length == 0){
       return []
     }
@@ -366,35 +368,35 @@ aparadeway = function(){
     return comp.filter(function(item,index){
       return arrays.reduce(function(res,it,idx){
         return res = res || it.reduce(function(r,i,indx){
-          return r = r || isEqual(item,i)
+          return r = r || exports.isEqual(item,i)
         },false)
       },false)
     })
   }
-  function intersectionBy(...arrays){
+  exports.intersectionBy = function(...arrays){
     if(!arrays || arrays.length == 0){
       return []
     }
     let it = identity;
-    if(!isArray(arrays[arrays.length - 1])){
-      ite = iteratee(arrays.pop());
+    if(!exports.isArray(arrays[arrays.length - 1])){
+      ite = exports.iteratee(arrays.pop());
     }
     let comp = arrays.shift();
     return comp.filter(function(item,index){
       return arrays.reduce(function(res,it,idx){
         return res = res || it.reduce(function(r,i,indx){
-          return r = r || isEqual(ite(item),ite(i))
+          return r = r || exports.isEqual(ite(item),ite(i))
         },false)
       },false)
     })
   }
-  function intersectionWith(...arrays){
+  exports.intersectionWith = function(...arrays){
     if(!arrays || arrays.length < 2 || (typeof arrays[arrays.length - 1] != 'function')){
       return []
     }
     let it = identity;
-    if(!isArray(arrays[arrays.length - 1])){
-      ite = iteratee(arrays.pop());
+    if(!exports.isArray(arrays[arrays.length - 1])){
+      ite = exports.iteratee(arrays.pop());
     }
     let comp = arrays.shift();
     return comp.filter(function(item,index){
@@ -405,21 +407,65 @@ aparadeway = function(){
       },false)
     })
   }
-  function join(array,separator = ','){
+  exports.join = function(array,separator = ','){
     let str = array.reduce(function(res,item,idx){
       return res += '' + separator + item
     })
     str.length -= 1;
     return str
   }
-  function last(array){
+  exports.last = function(array){
     if(!array || array.length == 0){
       return null
     }
     return array[array.length - 1]
   }
-  return {
-    get fnSize(){
+  exports.lastIndexOf = function(array,value,fromIndex = array.length - 1){
+    for(let i = fromIndex;i >= 0;i--){
+      if(array[i] === value){
+        return i
+      }
+    }
+  }
+  exports.pull = function(array,...values){
+    for(let i = 0;i < array.length;i++){
+      if(values.some(function(it,idx){return exports.isEqual(array[i],it)}))
+      {
+        array[i] = null;
+      }
+    }
+    let nullPos = 0;
+    let num = 0;
+    for(let i = 0;i < array.length;i++){
+      if(array[i] === null){
+        nullPos = i;
+      }
+      else{
+        array[nullPos] = array[i];
+        nullPos++;
+        num++;
+      }
+    }
+  }
+  exports.nth = function(array,n = 0){
+    return n >= 0?array[n]:array[array.length + n]
+  }
+  exports.forOwn = function(object,ite = identity){
+    let it = exports.iteratee(ite);
+    let key = exports.keys(object);
+    for(let i = 0;i < key.length;i++){
+      if(it(object[key[i]]) === false){
+        continue;
+      }
+      else{
+        object[key[i]] = it(object[key[i]],key[i],object);
+      }
+    }
+    return object
+  }
+  // 计算数目
+  Object.defineProperty(exports,'countSize',{
+    get(){
       let size = 0;
       for(let i in this){
         if(this.hasOwnProperty(i)){
@@ -427,48 +473,8 @@ aparadeway = function(){
         }
       }
       return size - 1
-    },
-    last:last,
-    join:join,
-    intersectionWith:intersectionWith,
-    intersectionBy:intersectionBy,
-    intersection:intersection,
-    initial:initial,
-    indexOf:indexOf,
-    head:head,
-    fromPairs:fromPairs,
-    flattenDepth:flattenDepth,
-    findLastIndex:findLastIndex,
-    findIndex:findIndex,
-    chunk: chunk,
-    compact: compact, 
-    fill:fill,
-    difference: difference,
-    drop : drop, 
-    dropRight: dropRight,
-    slice:slice,
-    keys : keys,
-    isEqual : isEqual,
-    map : map,
-    differenceBy: differenceBy,
-    dropWhile : dropWhile,
-    dropRightWhile : dropRightWhile,
-    identity: identity,
-    get : get,
-    property : property,
-    isMatch : isMatch,
-    matches : matches,
-    matchesProperty : matchesProperty,
-    iteratee : iteratee,
-    flatten : flatten,
-    flattenDeep: flattenDeep,
-    reduce : reduce,
-    indexOf : indexOf,
-    filter : filter,
-    differenceWith : differenceWith,
-    concat : concat,
-    isArray : isArray,
-    isObject : isObject
-  }
+    }
+  })
+  return exports
 }()
 
