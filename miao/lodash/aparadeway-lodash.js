@@ -18,8 +18,8 @@ aparadeway = function(){
   exports.keys = function(object){
     let arr = [];
     for(var i in object){
-      if(Object.hasOwnProperty(object[i])){
-        arr.push(object[i]);
+      if(object.hasOwnProperty(i)){
+        arr.push(i);
       }
     }
     return arr
@@ -170,6 +170,7 @@ aparadeway = function(){
       return collection
     }
     predicate = exports.iteratee(predicate);
+    console.log(predicate)
     let arr = [];
     let key = exports.keys(collection);
     for(let i = 0;i < key.length;i++){
@@ -444,25 +445,11 @@ aparadeway = function(){
       }
     }
   }
+  exports.nth = function(array,n = 0){
+    return n >= 0?array[n]:array[array.length + n]
+  }
   exports.pull = function(array,...values){
-    for(let i = 0;i < array.length;i++){
-      if(values.some(function(it,idx){return exports.isEqual(array[i],it)}))
-      {
-        array[i] = null;
-      }
-    }
-    let nullPos = 0;
-    let num = 0;
-    for(let i = 0;i < array.length;i++){
-      if(array[i] === null){
-        nullPos = i;
-      }
-      else{
-        array[nullPos] = array[i];
-        nullPos++;
-        num++;
-      }
-    }
+    return exports.pullAllBy(array,values);
   }
   exports.pullAll = function(array,values){
     return exports.pull(array,...values)
@@ -484,8 +471,48 @@ aparadeway = function(){
     custom.condenseArray(array);
     return array
   }
-  exports.nth = function(array,n = 0){
-    return n >= 0?array[n]:array[array.length + n]
+  exports.pullAllWith = function(array,...values){
+    let comparator;
+    if(!typeof values[values.length - 1] === 'function'){
+      return array
+    }
+    comparator = values[values.length - 1];
+    values.length -= 1;
+    values = exports.flatten(values);
+    array.forEach(function(item,index){
+      if(values.some(function(currentItem){
+        return comparator(item,currentItem)
+      })){
+        array[index] = null;
+      }
+    })
+    custom.condenseArray(array);
+    return array
+  }
+  exports.reverse = function(array){
+    let len = array.length;
+    let end = parseInt(len / 2);
+    let temp;
+    for(let i = 0;i < end;i++){
+      temp = array[i];
+      array[i] = array[len - i - 1];
+      array[len - i - 1] = temp;
+    }
+    return array
+  }
+  exports.sortedIndex = function(array,value){
+    return sortedIndexBy(array,value)
+  }
+  exports.sortedIndexBy = function(array,value,iteratee = exports.identity){
+    if(iteratee){
+      iteratee = exports.iteratee(iteratee);
+    }
+    for(let i = 0;i < array.length;i++){
+      if(iteratee(array[i]) >= iteratee(value)){
+        return i
+      }
+    }
+    return array.length
   }
   exports.forOwn = function(object,ite = exports.identity){
     let it = exports.iteratee(ite);
