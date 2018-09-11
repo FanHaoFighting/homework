@@ -5,7 +5,13 @@ aparadeway = function(){
   }
 
   exports.keys = function(object){
-    return Object.keys(object)
+    let arr = [];
+    for(var i in object){
+      if(Object.hasOwnProperty(object[i])){
+        arr.push(object[i]);
+      }
+    }
+    return arr
   }
 
   exports.isObject = function(value){
@@ -21,8 +27,8 @@ aparadeway = function(){
     }
     //判断引用类型
     if(exports.isObject(value) === true && exports.isObject(other) === true){
-      let values = keys(value);
-      let others = keys(other);
+      let values = exports.keys(value);
+      let others = exports.keys(other);
       let lengthOfValues = values.length;
       if(lengthOfValues !== others.length){
         return false
@@ -107,7 +113,7 @@ aparadeway = function(){
   exports.sArray = function(value){
     return (Object.prototype.toString.call(value) === '[object Array]')
   }
-  exports.iteratee = function(func = identity){
+  exports.iteratee = function(func = exports.identity){
     if(Array.isArray(func)){
       return exports.matchesProperty(func[0],func[1])
     }
@@ -121,7 +127,7 @@ aparadeway = function(){
       return exports.property(func)
     }
   }
-  exports.map = function(collection,ite = identity){
+  exports.map = function(collection,ite = exports.identity){
     ite = exports.iteratee(ite);
     let res = [];
     if(Array.isArray(collection)){
@@ -138,7 +144,7 @@ aparadeway = function(){
     }
     return res
   }
-  exports.reduce = function(collection,ite = identity,accumulator){
+  exports.reduce = function(collection,ite = exports.identity,accumulator){
     let key = exports.keys(collection);
     let i = accumulator?0:1;
     accumulator = !accumulator?collection[key[0]]:accumulator;
@@ -154,7 +160,7 @@ aparadeway = function(){
     }
     predicate = exports.iteratee(predicate);
     let arr = [];
-    let key = keys(collection);
+    let key = exports.keys(collection);
     for(let i = 0;i < key.length;i++){
       if(predicate(collection[key[i]],key[i],collection)){
         arr.push(collection[key[i]]);
@@ -170,7 +176,7 @@ aparadeway = function(){
       arr.push(array[i]);
     }
     for(let i = 0;i < sizeOfValues;i++){
-      if(exports.isArray(values[i])){
+      if(Array.isArray(values[i])){
         let sizeOfValue = values[i].length;
         for(let j = 0;j < sizeOfValue;j++){
           arr.push(values[i][j]);
@@ -288,7 +294,7 @@ aparadeway = function(){
     array.length -= number;
     return array
   }
-  exports.dropRightWhile = function(array,predicate = identity){
+  exports.dropRightWhile = function(array,predicate = exports.identity){
     if(!(typeof predicate == 'function')){
       predicate = exports.iteratee(predicate);
     }
@@ -299,7 +305,7 @@ aparadeway = function(){
       }
     }
   }
-  exports.dropWhile = function(array,predicate = identity){
+  exports.dropWhile = function(array,predicate = exports.identity){
     if(!(typeof predicate == 'function')){
       predicate = exports.iteratee(predicate);
     }
@@ -315,7 +321,7 @@ aparadeway = function(){
     }
     return array
   }
-  exports.findIndex = function(array,predicate = identity){
+  exports.findIndex = function(array,predicate = exports.identity){
     if(predicate){
       predicate = exports.iteratee(predicate);
     }
@@ -326,7 +332,7 @@ aparadeway = function(){
     }
     return -1
   }
-  exports.findLastIndex = function(array,predicate = identity){
+  exports.findLastIndex = function(array,predicate = exports.identity){
     if(predicate){
       predicate = exports.iteratee(predicate);
     }
@@ -377,8 +383,8 @@ aparadeway = function(){
     if(!arrays || arrays.length == 0){
       return []
     }
-    let it = identity;
-    if(!exports.isArray(arrays[arrays.length - 1])){
+    let it = exports.identity;
+    if(!Array.isArray(arrays[arrays.length - 1])){
       ite = exports.iteratee(arrays.pop());
     }
     let comp = arrays.shift();
@@ -394,8 +400,8 @@ aparadeway = function(){
     if(!arrays || arrays.length < 2 || (typeof arrays[arrays.length - 1] != 'function')){
       return []
     }
-    let it = identity;
-    if(!exports.isArray(arrays[arrays.length - 1])){
+    let it = exports.identity;
+    if(!Array.isArray(arrays[arrays.length - 1])){
       ite = exports.iteratee(arrays.pop());
     }
     let comp = arrays.shift();
@@ -450,7 +456,7 @@ aparadeway = function(){
   exports.nth = function(array,n = 0){
     return n >= 0?array[n]:array[array.length + n]
   }
-  exports.forOwn = function(object,ite = identity){
+  exports.forOwn = function(object,ite = exports.identity){
     let it = exports.iteratee(ite);
     let key = exports.keys(object);
     for(let i = 0;i < key.length;i++){
