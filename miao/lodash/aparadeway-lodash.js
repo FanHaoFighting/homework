@@ -514,6 +514,15 @@ aparadeway = function(){
     }
     return array.length
   }
+  exports.sortedIndexOf = function(array,value){
+    for(let i = 0;i < array.length;i++){
+      if(array[i] === value){
+        return i
+      }
+    }
+    return -1
+  }
+
   exports.forOwn = function(object,ite = exports.identity){
     let it = exports.iteratee(ite);
     let key = exports.keys(object);
