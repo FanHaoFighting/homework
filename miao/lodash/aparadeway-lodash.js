@@ -507,25 +507,24 @@ aparadeway = function(){
     return exports.sortedIndexBy(array,value)
   }
   exports.sortedIndexBy = function(array,value,iteratee = exports.identity){
-    if(iteratee){
-      iteratee = exports.iteratee(iteratee);
-    }
+    iteratee = exports.iteratee(iteratee);
+    value = iteratee(value);
     let left = 0;
-    let right = array.length - 1;
+    let right = array.length;
     let mid = parseInt((right + left) / 2);
     while(right - left > 1){
-      mid = parseInt((right + left) / 2);
-      if(iteratee(array[left]) == iteratee(value)){
-        return left
-      }
-      if(iteratee(array[mid]) >= iteratee(value)){
+      if(iteratee(array[mid]) >= value){
         right = mid;
       }
       else{
         left = mid;
       }
+      mid = parseInt((right + left) / 2);
     } 
-    return array.length
+    if(iteratee(array[mid]) < value){
+      mid++;
+    }
+    return mid
   }
   exports.sortedIndexOf = function(array,value){
     for(let i = 0;i < array.length;i++){
