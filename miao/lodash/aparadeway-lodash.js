@@ -534,7 +534,60 @@ aparadeway = function(){
     }
     return -1
   }
+  exports.sortedLastIndex = function(array,value){
+    var i = exports.sortedIndex(array,value);
+    while(array[i] === value){
+      i++;
+    }
+    return i
+  }
+  exports.sortedLastIndexBy = function(array,value,iteratee = exports.identity){
+    var i = exports.sortedIndexBy(array,value,iteratee);
+    iteratee = exports.iteratee(iteratee);
+    value = iteratee(value);
+    while(iteratee(array[i]) === value){
+      i++;
+    }
+    return i
+  }
+  exports.sortedLastIndexOf = function(array,value){
+    var i = exports.sortedIndexOf(array,value);
+    while(array[i] === value){
+      i++;
+    }
+    return i - 1
+  }
+  exports.sortedUniqBy = function(array,iteratee = exports.identity){
+    iteratee = exports.iteratee(iteratee);
+    let res = exports.uniqBy(array,iteratee);
+    return res.sort(function(a,b){
+      return iteratee(a) - iteratee(b)
+    })
+  }
+  exports.sortedUniq = function(array){
+    return sortedUniqBy(array);
+  }
+  exports.tail = function(array){
+    return array.slice(1)
+  }
+  exports.uniq = function(array){
+    return exports.uniqBy(array)
+  }
+  exports.uniqBy = function(array,iteratee = exports.identity){
+    iteratee = exports.iteratee(iteratee);
+    var res = new Set();
+    return array.filter(function(item,index){
+      let temp = iteratee(item);
+      if(res.has(temp)){
+        return false
+      }
+      else{
+        res.add(temp);
+        return true
+      }
 
+    })
+  }
   exports.forOwn = function(object,iteratee = exports.identity){
     return object.forEach(iteratee)
   }
