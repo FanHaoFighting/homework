@@ -565,10 +565,35 @@ aparadeway = function(){
     })
   }
   exports.sortedUniq = function(array){
-    return sortedUniqBy(array);
+    return exports.sortedUniqBy(array);
   }
   exports.tail = function(array){
     return array.slice(1)
+  }
+  exports.take = function(array,n = 1){
+    return array.slice(0,n)
+  }
+  exports.takeRight = function(array,n = 1){
+    let len = n > array.lengh?n % array.length:array.length;
+    return array.slice(len - n)
+  }
+  exports.takeRightWhile = function(array,predicate = exports.identity){
+    predicate = exports.iteratee(predicate);
+    let len = array.length;
+    let i = len - 1;
+    while(predicate(array[i]) && i >= 0){
+      i--;
+    }
+    return array.slice(i + 1);
+  }
+  exports.takeWhile = function(array,predicate = exports.identity){
+    predicate = exports.iteratee(predicate);
+    let len = array.length;
+    let i = 0;
+    while(predicate(array[i]) && i < len){
+      i++;
+    }
+    return array.slice(0,i);
   }
   exports.uniq = function(array){
     return exports.uniqBy(array)
