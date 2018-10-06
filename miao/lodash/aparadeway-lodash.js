@@ -574,7 +574,7 @@ aparadeway = function(){
     return array.slice(0,n)
   }
   exports.takeRight = function(array,n = 1){
-    let len = n > array.lengh?n % array.length:array.length;
+    let len = n > array.lengh?array.length:n;
     return array.slice(len - n)
   }
   exports.takeRightWhile = function(array,predicate = exports.identity){
@@ -595,12 +595,47 @@ aparadeway = function(){
     }
     return array.slice(0,i);
   }
+  exports.union = function(...arrays){
+    let arr = typeof arrays === 'undefined'?[]:arrays
+    return Array.from(new Set([].concat(...arr)))
+  }
+  exports.unionBy = function(...args){
+    let arr = typeof args === 'undefined'?[]:args
+    let iteratee = exports.identity;
+    if(!Array.isArray(arr[arr.length - 1])){
+      iteratee = arr[arr.length - 1];
+      arr.length -= 1;
+    }
+    iteratee = exports.iteratee(iteratee);
+    return exports.uniqBy([].concat(...arr),iteratee)
+  }
+  exports.unionWith = function(...args){
+    let arr = typeof args === 'undefined'?[]:args
+    let iteratee = exports.identity;
+    if(!Array.isArray(arr[arr.length - 1])){
+      iteratee = arr[arr.length - 1];
+      arr.length -= 1;
+    }
+    iteratee = exports.iteratee(iteratee);
+    let res = new Set();
+    return array.filter(function(item,index){
+      let temp = iteratee();
+      if(res.has(temp)){
+        return false
+      }
+      else{
+        res.add(temp);
+        return true
+      }
+
+    })
+  }
   exports.uniq = function(array){
     return exports.uniqBy(array)
   }
   exports.uniqBy = function(array,iteratee = exports.identity){
     iteratee = exports.iteratee(iteratee);
-    var res = new Set();
+    let res = new Set();
     return array.filter(function(item,index){
       let temp = iteratee(item);
       if(res.has(temp)){
@@ -612,6 +647,9 @@ aparadeway = function(){
       }
 
     })
+  }
+  exports.uniqWith = function(){
+
   }
   exports.forOwn = function(object,iteratee = exports.identity){
     return object.forEach(iteratee)
