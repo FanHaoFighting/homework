@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+  <style>
+    *{
+      font-size: 0;
+    }
+    html,body{
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+    }
+    /* 画布 */
+    #canvas{
+      width: 800px;
+      height: 550px;
+      margin: calc(50vh - 300px) auto;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* 湖面 */
+    .lake{
+      width: 100%;
+      height: 190px;
+      position: absolute;
+      top: 410px;
+      z-index: 30;
+      overflow: hidden;
+    }
+    .lake span{
+      display: inline-block;
+      height: 20px;
+      border-radius: 10px;
+    }
+    /* 湖光 */
+    .sparkle{
+      background-color: #fff;
+    }
+    /* 湖水 */
+    .water{
+      background-color: #C5E4D4;
+    }
+
+    /* 山峦 */
+    .montain{
+      width: 100%;
+      height: 360px;
+      position: absolute;
+      top: 50px;
+      overflow: hidden;
+    }
+    /* 背景 */
+    .background{
+      width: 550px;
+      height: 550px;
+      border-radius: 50%;
+      background-color: #e0f0e6;
+      margin: 0 auto;
+    }
+    /* 山体 */
+    .massif{
+      position: absolute;
+    }
+    .close{
+      background-color: #79C7B1;
+      z-index: 15;
+    }
+    .mid{
+      background-color: #8ECDBC;
+      z-index: 10;
+    }
+    .far{
+      background-color: #B3DCD4;
+      z-index: 5;
+    }
+    /* 树 */
+    .tree{
+      position: absolute;
+      bottom: 0;
+      z-index: 15;
+    }
+    .tree .leaves,.tree .trunk{
+      background-color: #17B286;
+    }
+    .tree-cut{
+      overflow: hidden;
+    }
+
+    /* 太阳 */
+    .halo{
+      width: 100px;
+      height: 100px; 
+      background-color: #F0F2CD;
+      border-radius: 50%;
+      position: absolute;
+      top: 120px;
+      left: 190px;
+      border:2px solid #E5E4C6;
+    }
+    .sun{
+      width: 84px;
+      height: 84px;
+      position: absolute;
+      left: 8px;
+      top: 8px;
+      border-radius: 50%;
+      background-color: #F7D687;
+    }
+    /* 云 */
+    .cloud{
+      position: absolute;
+      z-index: 20;
+      overflow: hidden;
+      animation: gone 100s linear forwards;
+    }
+    .cloud div{
+      position: absolute;
+      background-color: #fff;
+      border-radius: 50%;
+    }
+
+    /* 船 */
+    .boat{
+      position: absolute;
+      z-index: 50;
+    }
+    .boat div{
+      display: inline-block;
+    }
+    /* 船帆 */
+    .sail{
+      overflow: hidden;
+      position: absolute;
+    }
+    .sail .sail-bg{
+      position: absolute;
+      background-color: #EBF2F8;
+      border-bottom:2px solid #AAC6EB;
+      overflow: hidden;
+    }
+    .sail .sail-sd{
+      background-color: #D3EEF5;
+      position: absolute;
+    }
+    /* 船桅 */
+    .mast{
+      background-color: #8DBDED;
+      position: absolute;
+    }
+    /* 船体 */
+    .boat-body{
+      overflow: hidden;
+      position: absolute;
+      transform: rotate(45deg);
+      z-index: 100;
+    }
+    .boat-body-bg{
+      position: absolute;
+      background-color:#1E7FC4;
+      z-index: 55;
+      transform: rotate(-45deg);
+    }
+    .boat-trip{
+      position: absolute;
+      background-color: #8ABEE3; 
+    }
+    .boat-sd{
+      position: absolute;
+      z-index: 10;
+    }
+    .boat-sd div{
+      background-color: #AAD6AD;
+      border-radius: 30px;
+      overflow: hidden;
+      position: absolute;
+    }
+    .boat-sd .mask{
+      position: absolute;
+      display: inline-block;
+      background-color: #C5E4D4;
+    }
+    /* 人 */
+    .human{
+      position: absolute;
+      left: 150px;
+      width: 52px;
+      height: 70px;
+      overflow: hidden;
+      top: 70px;
+    }
+    .human div{
+      position: absolute;
+    }
+    .hat{
+      overflow: hidden;
+      width: 100%;
+      height: 20px; 
+      z-index: 30;
+    }
+    .hat div{
+      background-color: #f9d37a;
+      bottom: 0;
+      border-radius: 20px;
+    }
+    .hat div div{
+      display: inline-block;
+      background-color:  #f9d37a;
+      border-radius: 50%;
+    }
+    .head{
+      border-radius: 50%;
+      background-color: #d77213;
+      width: 18px;
+      height: 18px;
+      left: 17px;
+      top: 10px;
+      z-index: 20;
+    }
+    .body{
+      width: 60px;
+      height: 22px;
+      top: 20px;
+      overflow: hidden;
+    }
+    .body div{
+      width: 26px;
+      height: 40px;
+      border-radius: 50%;
+      background-color: #2F91D8;
+      left: 13px;
+    }
+
+    /* 动画 */
+    /* 船右移 */
+    @keyframes boatToRight{
+      100%{left: 250px}
+    }
+    /* 倒影右移 */
+    @keyframes shadowToRight{
+      100%{left: 80px}
+    }
+    /* 船左移 */
+    @keyframes boatToLeft{
+      100%{left: 160px}
+    }
+    /* 倒影左移 */
+    @keyframes shadowToLeft{
+      80%{
+        left: 50px;
+      }
+      100%{left: 40px}
+    }
+    /* 云移 */
+    @keyframes gone{
+      100%{
+        left: 700px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- 画布 -->
+  <div id='canvas'>
+    <!-- 云 -->
+    <div class="cloud" style="width:160px;height: 200px;left:116px;top:75px;">
+      <div style="width:40px;height: 40px;bottom: -10px;left: 0;"></div>
+      <div style="width:70px;height: 70px;bottom: -15px;left: 25px;"></div>
+      <div style="width:40px;height: 40px;bottom: -15px;left: 80px;"></div>
+    </div>
+    <div class="cloud" style="width:160px;height: 200px;left:265px;top:-5px;">
+      <div style="width:40px;height: 40px;bottom: -20px;"></div>
+      <div style="width:60px;height: 60px;bottom: -30px;left: 20px;"></div>
+    </div>
+    <div class="cloud" style="width:160px;height: 200px;left:385px;top:40px;">
+      <div style="width:30px;height: 30px;bottom: -15px;"></div>
+    </div>
+
+    <!-- 山峦 -->
+    <div class="montain">
+      <!-- 背景 -->
+      <div class="background">
+        <!-- 太阳 -->
+        <div class="halo">
+          <div class="sun"></div>
+        </div>
+        <!-- 近山 -->
+        <div class="massif close" style="width:200px;height:200px;border-radius: 50%;bottom: -100px;left:60px"></div>
+        <div class="massif close" style="width:205px;height:300px;border-radius: 50%;bottom: -150px;left:336px"></div>
+        <div class="massif close" style="width:150px;height:160px;border-radius: 50%;bottom: -80px;right:50px"></div>
+        <div class="massif close" style="width:150px;height:160px;border-radius: 50%;bottom: -80px;right:150px;z-index: 10;"></div>
+        <div class="massif close" style="width:116px;height:120px;border-radius: 50%;bottom: 38px;right:162px;background-color: #B3DCD4;z-index: 11"></div>
+        <div class="massif far" style="width:150px;height:160px;border-radius: 50%;bottom: -80px;right:50px;"></div>
+        <!-- 中部山 -->
+        <div class="massif mid" style="width:150px;height:190px;border-radius: 50%;bottom: -95px;left:220px"></div>
+        <!-- 远山 -->
+        <div class="massif far" style="width:140px;height:290px;border-radius: 50%;bottom: -130px;left:285px"></div>
+        <div class="massif far" style="width:220px;height:500px;border-radius: 50%;bottom: -300px;right:120px"></div>
+
+        <!-- 树 -->
+        <div class="tree" style="right: 340px">
+          <div class="tree-cut" style="width: 40px;height:90px;">
+            <div class="leaves" style="width: 40px;height:150px;border-radius:100%;"></div>
+          </div>
+          <div class="leaves"  style="width: 40px;height:40px;border-radius:50%;margin-top: -20px;"></div>
+          <div class="trunk" style="width:6px;height: 50px;margin-left: 17px;margin-top: -30px"></div>
+        </div>
+        <div class="tree" style="right: 270px">
+          <div class="tree-cut" style="width: 40px;height:90px;">
+            <div class="leaves" style="width: 40px;height:150px;border-radius:100%;"></div>
+          </div>
+          <div class="leaves"  style="width: 40px;height:40px;border-radius:50%;margin-top: -20px;"></div>
+          <div class="trunk" style="width:6px;height: 50px;margin-left: 17px;margin-top: -30px"></div>
+        </div>
+        <div class="tree" style="right: 70px">
+          <div class="tree-cut" style="width: 30px;height:60px;">
+            <div class="leaves" style="width: 30px;height:100px;border-radius:100%;"></div>
+          </div>
+          <div class="leaves"  style="width: 30px;height:30px;border-radius:50%;margin-top: -20px;"></div>
+          <div class="trunk" style="width:4px;height: 50px;margin-left: 14px;margin-top: -34px;"></div>
+        </div>
+      </div>
+    </div>
+    <!-- 湖面 -->
+    <div class="lake">
+      <!-- 湖水和湖光 -->
+      <span style="width:100%" class="water"></span>
+      <span style="width:660px;margin-left: 50px;" class="water">
+        <span style="width: 60px;margin-left: 60px;" class="sparkle"></span>
+      </span>
+      <span style="width:620px;margin-left: 30px;" class="water"></span>
+      <span style="width:100%;" class="water">
+        <span style="width:160px;" class="sparkle"></span>
+        <span style="width:60px;margin-left:320px;" class="sparkle"></span>
+        <span style="width:220px;margin-left:40px;" class="sparkle"></span>
+      </span>
+      <span style="width:550px;margin-left:100px;" class="water"></span>
+      <span style="width:100%;" class="water">
+        <span style="width: 180px;" class="sparkle"></span>
+        <span style="width: 20px;margin-left: 340px;" class="sparkle"></span>
+        <span style="width: 250px;margin-left: 10px;" class="sparkle">
+          <span style="width:80px;margin-left:110px;" class="water"></span>
+        </span>
+      </span>
+      <span style="width:100%;" class="sparkle">
+        <span style="width:70px;margin-left:40px;" class="water"></span>
+        <span style="width:460px;margin-left:40px;" class="water"></span>
+      </span>
+      <span style="width:300px;margin-left:220px;" class="water"></span>
+    </div>
+
+    <!-- 船 -->
+    <div class="boat" style="left: 150px;top:355px;z-index: 999;animation: boatToRight 25s forwards linear;">
+      <!-- 船帆 -->
+      <div class="sail" style="width: 100px;height: 260px;left:12px;top: 5px;transform:rotate(35deg);">
+        <div class="sail-bg" style="width: 80px;height: 100px;margin-left:-50px;transform:rotate(-35deg);margin-top: 5px">
+          <div class="sail-sd" style="width: 50px;height: 200px;left: 60px;top: -20px;transform:rotate(20deg)"></div>
+        </div>
+      </div>
+      <!-- 船桅 -->
+      <div class="mast" style="width: 4px;height: 110px;left: 95px;"></div>
+      <!-- 船帆 -->
+      <div class="sail" style="width: 100px;height: 300px;left: 99px;">
+        <div class="sail-bg" style="width: 80px;height: 90px;transform:rotate(-35deg);margin-left:-50px;margin-top: 10px;">
+          <div class="sail-sd" style="width: 50px;height: 200px;transform:rotate(25deg);left: -5px;top: -20px;"></div>
+        </div>
+      </div>
+      <!-- 人 -->
+      <div class="human">
+        <div class="hat">
+          <div style="width: 100%;height: 6px;">
+            <div style="width: 13px;height: 13px;left: 1px;bottom: -3px;"></div>
+            <div style="width: 20px;height: 20px;left: 16px;bottom: 0;"></div>
+            <div style="width: 13px;height: 13px;right: 1px;bottom: -3px;"></div>
+          </div>
+        </div>
+        <div class="head"></div>
+        <div class="body">
+          <div></div>
+        </div>
+      </div>
+      <!-- 船体 -->
+      <div class="boat-body" style="width: 150px;height: 150px;top: 10px;left: 50px;">
+        <div class="boat-body-bg" style="width: 230px;height: 20px;top: 100px;left:-30px;">
+          <div class="boat-trip" style="width: 270px;height: 8px;top: 6px;left: -20px;"></div>
+        </div>
+      </div>
+      <!-- 倒影 -->
+      <div class="boat-sd" style="left:35px;top: 123px;animation: shadowToRight 25s forwards linear;">
+        <div style="width: 120px;height: 10px;left: 0;top: 0;"></div>
+        <div style="width: 120px;height: 10px;left: 0;top: 10px;">
+          <div class="mask" style="width: 60px;height: 14px;left: -10px;"></div>
+          <div class="mask" style="width: 70px;height: 14px;left: 60px;"></div>
+        </div>
+        <div style="width: 70px;height: 10px;left: 30px;top: 20px;"></div>
+      </div>
+    </div>
+
+    <div class="boat" style="left: 500px;top:375px;transform: scale(0.5,0.5);animation: boatToLeft 20s forwards linear;">
+      <!-- 船帆 -->
+      <div class="sail" style="width: 100px;height: 260px;left:12px;top: 5px;transform:rotate(35deg);">
+        <div class="sail-bg" style="width: 80px;height: 100px;margin-left:-50px;transform:rotate(-35deg);margin-top: 5px">
+          <div class="sail-sd" style="width: 50px;height: 200px;left: 60px;top: -20px;transform:rotate(20deg)"></div>
+        </div>
+      </div>
+      <!-- 船桅 -->
+      <div class="mast" style="width: 4px;height: 110px;left: 95px;"></div>
+      <!-- 船帆 -->
+      <div class="sail" style="width: 100px;height: 300px;left: 99px;">
+        <div class="sail-bg" style="width: 80px;height: 90px;transform:rotate(-35deg);margin-left:-50px;margin-top: 10px;">
+          <div class="sail-sd" style="width: 50px;height: 200px;transform:rotate(25deg);left: -5px;top: -20px;"></div>
+        </div>
+      </div>
+      <!-- 船体 -->
+      <div class="boat-body" style="width: 130px;height: 130px;top: 15px;left: 35px;">
+        <div class="boat-body-bg" style="width: 200px;height: 20px;top: 85px;left:-10px;">
+          <div class="boat-trip" style="width: 210px;height: 8px;top: 6px;left: -20px;"></div>
+        </div>
+      </div>
+      <!-- 倒影 -->
+      <div class="boat-sd" style="left:35px;top: 123px;animation: shadowToLeft 20s forwards linear">
+        <div style="width: 120px;height: 10px;left: 0;top: 0;"></div>
+        <div style="width: 120px;height: 10px;left: 0;top: 10px;">
+          <div class="mask" style="width: 60px;height: 14px;left: -20px;"></div>
+          <div class="mask" style="width: 70px;height: 14px;left: 50px;"></div>
+        </div>
+        <div style="width: 70px;height: 10px;left: 30px;top: 20px;"></div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
