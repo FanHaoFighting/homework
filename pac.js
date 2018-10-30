@@ -7100,5 +7100,5 @@ var banned = new Set([
 ])
 
 function getProxy() {
-    return Math.random() < 0.8 ? 'HTTPS 144.34.173.35' : 'HTTPS 144.34.173.35'
+    return 'PROXY 144.34.173.35'
 }
