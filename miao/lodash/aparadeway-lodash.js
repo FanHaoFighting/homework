@@ -618,7 +618,7 @@ aparadeway = function(){
     }
     iteratee = exports.iteratee(iteratee);
     let res = new Set();
-    return array.filter(function(item,index){
+    return arr.filter(function(item,index){
       let temp = iteratee();
       if(res.has(temp)){
         return false
@@ -648,12 +648,40 @@ aparadeway = function(){
 
     })
   }
-  exports.uniqWith = function(){
-
+  exports.uniqWith = function(array,comparator){
+    if(typeof comparator === 'undefined'){
+      return array
+    }
+    else{
+      return array.reduce(function(res,item){
+        for(let i of res){
+          if(comparator(item,i)){
+            return res
+          }
+        }
+        res.push(item)
+        return res
+      },[])
+    }
   }
   exports.forOwn = function(object,iteratee = exports.identity){
     return object.forEach(iteratee)
   }
+  exports.unzip = function(...array){
+    
+  }
+  exports.zip = function(...arrays){
+    let res = [];
+    arrays.forEach(function(item,index){
+      item.forEach(function(i,idx){
+        if(typeof res[idx] === 'undefined'){
+          res[idx] = [];
+        }
+        res[idx].push(i)
+      })
+    })
+    return res
+  } 
   // 计算数目
   Object.defineProperty(exports,'countSize',{
     get(){
