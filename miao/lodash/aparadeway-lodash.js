@@ -611,7 +611,7 @@ aparadeway = function(){
   }
   exports.unionWith = function(...args){
   	var comparator = args.pop();
-    return exports.uniqWith((...args),comparator)
+    return exports.uniqWith(...args,comparator)
   }
   exports.uniq = function(array){
     return exports.uniqBy(array)
@@ -665,6 +665,14 @@ aparadeway = function(){
     })
     return res
   } 
+  exports.zipWith = function(...arrays){
+  	var iteratee = arrays.pop();
+  	if(Array.isArray(iteratee)){
+  		return exports.zip(...arrays,iteratee)
+  	}
+  	iteratee = exports.iteratee(iteratee);
+
+  }
   // 计算数目
   Object.defineProperty(exports,'countSize',{
     get(){
