@@ -574,7 +574,7 @@ aparadeway = function(){
     return array.slice(0,n)
   }
   exports.takeRight = function(array,n = 1){
-    let len = n > array.lengh?array.length:n;
+    let len = array.length;
     return array.slice(len - n)
   }
   exports.takeRightWhile = function(array,predicate = exports.identity){
@@ -610,25 +610,8 @@ aparadeway = function(){
     return exports.uniqBy([].concat(...arr),iteratee)
   }
   exports.unionWith = function(...args){
-    let arr = typeof args === 'undefined'?[]:args
-    let iteratee = exports.identity;
-    if(!Array.isArray(arr[arr.length - 1])){
-      iteratee = arr[arr.length - 1];
-      arr.length -= 1;
-    }
-    iteratee = exports.iteratee(iteratee);
-    let res = new Set();
-    return arr.filter(function(item,index){
-      let temp = iteratee();
-      if(res.has(temp)){
-        return false
-      }
-      else{
-        res.add(temp);
-        return true
-      }
-
-    })
+  	var comparator = args.pop();
+    return exports.uniqWith(...args,comparator)
   }
   exports.uniq = function(array){
     return exports.uniqBy(array)
@@ -668,7 +651,7 @@ aparadeway = function(){
     return object.forEach(iteratee)
   }
   exports.unzip = function(...array){
-    
+  	return exports.zip(...array)
   }
   exports.zip = function(...arrays){
     let res = [];
