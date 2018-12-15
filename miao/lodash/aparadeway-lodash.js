@@ -29,13 +29,21 @@ var aparadeway = {
   at: (object, ...paths) => {
     //aparadeway.
   },
-  method: (path, ...args) => ((source) => aparadeway.get(source, path)(...args)),
-  property: (path) => (source) => (aparadeway.get(source, path)),
-  matchesProperty: (path, srcValue) => {
-    return 1
+  invoke: (object, path, ...args) => {
+    path = aparadeway.toPath(path);
+    let func = path.pop();
+    return aparadeway.get(object, path)[func](...args)
   },
+  method: (path, ...args) => ((source) => aparadeway.get(source, path)(...args)),
+  methodOf: (object, ...args) => ((path) => aparadeway.get(object, path)(...args)),
+  property: (path) => (source) => (aparadeway.get(source, path)),
+  propertyOf: (object) => (path) => (aparadeway.get(object, path)),
+  matchesProperty: (path, srcValue) => ((object) => aparadeway.isEqual(aparadeway.get(object, path), srcValue)),
   iteratee: (func = aparadeway.identity) => {
-
+    if(Array.isArray(func)) return (source) => aparadeway.matchesProperty(source, func)
+    if(aparadeway.isObject(func)) return (source) => aparadeway.matches(source, func)
+    if(typeof func === 'string') return (source) => aparadeway.property(source, func)
+    if(typeof func === 'function') return iteratee
   },
   forEach: (collection, iteratee = aparadeway.identity) => {
     let collectionKeys = Object.keys(collection);
@@ -89,6 +97,10 @@ var aparadeway = {
     objectKeys.forEach((item) => res.push([item,object[item]]));
     return res
   },
+  fromPairs: (pairs) => pairs.reduce((acc,item) => {
+    acc[item[0]] = item[1];
+    return acc
+  },{}),
   constant: (value) => (() => value),
   flatten: (array) => array.reduce((acc, item) => acc.concat(item),[]),
   flattenDeep: (array) => array.reduce((acc,item) => acc.concat(Array.isArray(item) ? aparadeway.flattenDeep(item) : item),[]),
