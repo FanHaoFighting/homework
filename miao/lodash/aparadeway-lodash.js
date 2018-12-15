@@ -40,10 +40,10 @@ var aparadeway = {
   propertyOf: (object) => (path) => (aparadeway.get(object, path)),
   matchesProperty: (path, srcValue) => ((object) => aparadeway.isEqual(aparadeway.get(object, path), srcValue)),
   iteratee: (func = aparadeway.identity) => {
-    if(Array.isArray(func)) return (source) => aparadeway.matchesProperty(source, func)
-    if(aparadeway.isObject(func)) return (source) => aparadeway.matches(source, func)
-    if(typeof func === 'string') return (source) => aparadeway.property(source, func)
-    if(typeof func === 'function') return iteratee
+    if(Array.isArray(func)) return aparadeway.matchesProperty(...func)
+    if(typeof func === 'function') return (value) => func(value)
+    if(aparadeway.isObject(func)) return aparadeway.matches(func)
+    if(typeof func === 'string') return aparadeway.property(func)
   },
   forEach: (collection, iteratee = aparadeway.identity) => {
     let collectionKeys = Object.keys(collection);
@@ -103,6 +103,42 @@ var aparadeway = {
   },{}),
   constant: (value) => (() => value),
   flatten: (array) => array.reduce((acc, item) => acc.concat(item),[]),
-  flattenDeep: (array) => array.reduce((acc,item) => acc.concat(Array.isArray(item) ? aparadeway.flattenDeep(item) : item),[]),
-  flattenDepth: (array, depth = 1) => array.reduce((acc,item) => acc.concat((Array.isArray(item) && depth-- !== 1) ? aparadeway.flattenDepth(item, depth) : item),[]),
+  flattenDeep: (array) => array.reduce((acc, item) => acc.concat(Array.isArray(item) ? aparadeway.flattenDeep(item) : item),[]),
+  flattenDepth: (array, depth = 1) => array.reduce((acc, item) => acc.concat((Array.isArray(item) && depth-- !== 1) ? aparadeway.flattenDepth(item, depth) : item),[]),
+  chunk: (array, size = 1) => {
+    let res = [];
+    while(array.length){
+      res.push(array.splice(0, size))
+    }
+    return res
+  },
+  compact: (array) => array.filter(item => Boolean(item)),
+  concat: (...values) => values.reduce((res, item) => {
+    Array.isArray(item) ? item.reduce((r, i) => { res.push(i) },[]) : res.push(item);
+    return res
+  },[]),
+  slice: (array, start = 0, end = array.length) => array.reduce((res, item, index) => {
+    if(index >= start && index < end) res.push(item);
+    return res
+  },[]),
+  difference: (array, ...values) => {
+    let check = [].concat(...values)
+    return array.filter((item) => check.indexOf(item) === -1)
+  },
+  differenceBy: (array, ...args) => {
+    let iteratee = args.length > 1 ? aparadeway.iteratee(args.pop()) : aparadeway.identity;
+    args = [].concat(...args);
+    args.forEach((item, index, ary) => { 
+      ary[index] = iteratee(item);
+    });
+    return array.filter((item) => args.indexOf(iteratee(item)) === -1)
+  },
+  indexOf: (array, value, fromIndex = 0) => {
+    let len = array.length;
+    fromIndex = fromIndex < 0 ? (len + fromIndex) : fromIndex;
+    for(let i = fromIndex;i < len;i++){
+      if(array[i] === value) return i
+    }
+    return - 1 
+  }
 }
