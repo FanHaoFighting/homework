@@ -126,7 +126,7 @@ var aparadeway = {
     return array.filter((item) => check.indexOf(item) === -1)
   },
   differenceBy: (array, ...args) => {
-    let iteratee = args.length > 1 ? aparadeway.iteratee(args.pop()) : aparadeway.identity;
+    let iteratee = (args.length > 1 && (args[args.length - 1].length > 1)) ? aparadeway.iteratee(args.pop()) : aparadeway.identity;
     args = [].concat(...args);
     args.forEach((item, index, ary) => { 
       ary[index] = iteratee(item);
