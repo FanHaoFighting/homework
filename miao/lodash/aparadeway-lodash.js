@@ -1,7 +1,10 @@
 var aparadeway = {
   identity: value => value,
   isArray: value => Object.prototype.toString.call(value) === '[object Array]',
-  isObject: value => Object.prototype.toString.call(value) === '[object Object]',
+  isObject: value => {
+    if(typeof value === 'function') return true
+    return (Array.isArray(value) || Object.prototype.toString.call(value) === '[object Object]')
+  },
   isMatch: (object, source, iteratee) => {
     let objectKeys = Object.keys(object);
     return objectKeys.some(item => aparadeway.isEqualWith(object[item], source[item], iteratee))
@@ -16,7 +19,7 @@ var aparadeway = {
   },
   methods: (path, ...args) => {
     if(typeof path === 'string') path = aparadeway.toPath(path);
-    
+
   },
   property: (path) => {
     return (object) => {
@@ -50,8 +53,8 @@ var aparadeway = {
     return res
   },
   isEqual: (value, other) => {
-    let objToString = Object.prototype.toString;
     if(value === other || (value !== value && other !== other)) return true
+    let objToString = Object.prototype.toString;
     if(objToString.call(value) !== objToString.call(other)) return false
     if(aparadeway.isObject(value)){
       let valueKeys = Object.keys(value);
@@ -62,6 +65,7 @@ var aparadeway = {
       }
       return true
     }
+    return false
   },
   toPairs: (object) => {
     let res = [];
