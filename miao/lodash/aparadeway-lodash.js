@@ -17,15 +17,20 @@ var aparadeway = {
     if(aparadeway.isObject(value)) return ['object object']
     return value.match(/[a-z0-9]+/gi)
   },
-  methods: (path, ...args) => {
+  get:(object, path, defaultValue) => {
+    let res = object;
     if(typeof path === 'string') path = aparadeway.toPath(path);
-
-  },
-  property: (path) => {
-    return (object) => {
-
+    for(let key of path){
+      if(res) res = res[key];
+      else break;
     }
+    return (typeof res === 'undefined') ? defaultValue : res
   },
+  at: (object, ...paths) => {
+    //aparadeway.
+  },
+  method: (path, ...args) => ((source) => aparadeway.get(source, path)(...args)),
+  property: (path) => (source) => (aparadeway.get(source, path)),
   matchesProperty: (path, srcValue) => {
     return 1
   },
@@ -84,5 +89,8 @@ var aparadeway = {
     objectKeys.forEach((item) => res.push([item,object[item]]));
     return res
   },
-
+  constant: (value) => (() => value),
+  flatten: (array) => array.reduce((acc, item) => acc.concat(item),[]),
+  flattenDeep: (array) => array.reduce((acc,item) => acc.concat(Array.isArray(item) ? aparadeway.flattenDeep(item) : item),[]),
+  flattenDepth: (array, depth = 1) => array.reduce((acc,item) => acc.concat((Array.isArray(item) && depth-- !== 1) ? aparadeway.flattenDepth(item, depth) : item),[]),
 }
