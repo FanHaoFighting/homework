@@ -61,17 +61,11 @@ var aparadeway = {
       let otherKeys = Object.keys(other);
       if(valueKeys.length !== otherKeys.length) return false
       for(let key of valueKeys){
-        if(value[key] !== other[key]) return false
+        if(!aparadeway.isEqual(value[key], other[key])) return false
       }
       return true
     }
     return false
-  },
-  toPairs: (object) => {
-    let res = [];
-    let objectKeys = Object.keys(object);
-    objectKeys.forEach((item) => res.push([item,object[item]]));
-    return res
   },
   isEqualWith: (value, other, customiser) => {
     if(typeof customiser === 'undefined') return aparadeway.isEqual(value, other)
@@ -83,6 +77,12 @@ var aparadeway = {
       if(valueKeys.length !== otherKeys.length) return false
       return valueKeys.some((item,key) => customiser(value[item],other[item],item,value,other))
     }
-  }
+  },
+  toPairs: (object) => {
+    let res = [];
+    let objectKeys = Object.keys(object);
+    objectKeys.forEach((item) => res.push([item,object[item]]));
+    return res
+  },
 
 }
