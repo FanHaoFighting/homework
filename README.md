@@ -1,3 +1,3 @@
 # aparadeway.github.io
 
-作业而已。
+练习而已。
